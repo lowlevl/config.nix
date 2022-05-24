@@ -9,11 +9,6 @@ terraform {
       source  = "hashicorp/random"
       version = "3.2.0"
     }
-
-    minio = {
-      source  = "aminueza/minio"
-      version = "1.5.2"
-    }
   }
 
   required_version = ">= 1.1"

@@ -31,8 +31,8 @@ resource "kubernetes_deployment_v1" "minio" {
 
             value_from {
               secret_key_ref {
-                name = kubernetes_secret_v1.access_key_id.metadata.0.name
-                key  = "value"
+                name = kubernetes_secret_v1.credentials.metadata.0.name
+                key  = "ACCESS_KEY_ID"
               }
             }
           }
@@ -42,8 +42,8 @@ resource "kubernetes_deployment_v1" "minio" {
 
             value_from {
               secret_key_ref {
-                name = kubernetes_secret_v1.secret_access_key.metadata.0.name
-                key  = "value"
+                name = kubernetes_secret_v1.credentials.metadata.0.name
+                key  = "SECRET_ACCESS_KEY"
               }
             }
           }
@@ -122,16 +122,16 @@ resource "kubernetes_deployment_v1" "minio" {
           name = "certs"
 
           secret {
-            secret_name = kubernetes_secret_v1.certificates.metadata.0.name
+            secret_name = kubernetes_secret_v1.tls.metadata.0.name
 
             items {
-              key  = "public.crt"
+              key  = "tls.crt"
               mode = "0444"
               path = "public.crt"
             }
 
             items {
-              key  = "private.key"
+              key  = "tls.key"
               mode = "0400"
               path = "private.key"
             }
