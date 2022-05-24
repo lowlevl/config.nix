@@ -24,11 +24,11 @@ resource "kubernetes_deployment_v1" "minio" {
         container {
           image = "minio/minio:latest"
           name  = "minio"
-          args  = ["server", "/data", "--certs-dir", "/certs"]
+          args  = ["server", "/storage", "--certs-dir", "/certs"]
 
           volume_mount {
-            mount_path = "/data"
-            name       = "data"
+            mount_path = "/storage"
+            name       = "storage"
           }
 
           volume_mount {
@@ -43,7 +43,6 @@ resource "kubernetes_deployment_v1" "minio" {
 
           port {
             container_port = 9000
-            host_ip        = "0.0.0.0"
             host_port      = 5901
           }
 
@@ -54,8 +53,24 @@ resource "kubernetes_deployment_v1" "minio" {
               port   = 9000
             }
 
-            initial_delay_seconds = 20
-            period_seconds        = 10
+            initial_delay_seconds = 120
+            period_seconds        = 30
+            timeout_seconds       = 10
+            success_threshold     = 1
+            failure_threshold     = 3
+          }
+
+          readiness_probe {
+            http_get {
+              scheme = "HTTPS"
+              path   = "/minio/health/ready"
+              port   = 9000
+            }
+
+            initial_delay_seconds = 120
+            period_seconds        = 15
+            timeout_seconds       = 10
+            success_threshold     = 1
             failure_threshold     = 3
           }
 
@@ -73,7 +88,7 @@ resource "kubernetes_deployment_v1" "minio" {
         }
 
         volume {
-          name = "data"
+          name = "storage"
 
           persistent_volume_claim {
             claim_name = kubernetes_persistent_volume_claim_v1.minio.metadata[0].name
