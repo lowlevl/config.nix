@@ -10,12 +10,10 @@ resource "kubernetes_service_v1" "minio" {
     }
 
     port {
-      protocol  = "TCP"
-      port      = 9000
-      node_port = var.node_port
+      port        = var.port
+      target_port = "s3"
     }
 
-    type = "NodePort"
+    type = "LoadBalancer"
   }
-
 }

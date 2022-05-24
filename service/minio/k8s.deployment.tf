@@ -42,7 +42,7 @@ resource "kubernetes_deployment_v1" "minio" {
           }
 
           port {
-            name           = "endpoint"
+            name           = "s3"
             protocol       = "TCP"
             container_port = 9000
           }

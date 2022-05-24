@@ -1,5 +1,5 @@
-output "node_address" {
-  value = kubernetes_service_v1.minio.spec[0].cluster_ip
+output "endpoint" {
+  value = "${kubernetes_service_v1.minio.status.0.load_balancer.0.ingress.0.ip}:${kubernetes_service_v1.minio.spec.0.port.0.port}"
 }
 
 output "access_key_id" {

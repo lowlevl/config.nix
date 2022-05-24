@@ -1,3 +1,7 @@
+output "minio_endpoint" {
+  value = module.minio.endpoint
+}
+
 output "minio_access_key_id" {
   value     = module.minio.access_key_id
   sensitive = true

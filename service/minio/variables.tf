@@ -1,4 +1,4 @@
-variable "node_port" {
+variable "port" {
   description = "The port of node on which the MinIO server will be bound."
   type        = number
   nullable    = false

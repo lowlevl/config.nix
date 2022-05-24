@@ -28,5 +28,5 @@ module "minio" {
 
   ssl_cert_path = var.minio_ssl_cert_path
   ssl_key_path  = var.minio_ssl_key_path
-  node_port     = 5901
+  port          = 30001
 }
