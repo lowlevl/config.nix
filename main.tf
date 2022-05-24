@@ -19,7 +19,7 @@ provider "kubernetes" {
 }
 
 module "minio" {
-  source = "./service/minio"
+  source = "./apps/minio"
 
   ssl_cert_path = var.minio_ssl_cert_path
   ssl_key_path  = var.minio_ssl_key_path

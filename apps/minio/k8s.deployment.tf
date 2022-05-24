@@ -22,8 +22,8 @@ resource "kubernetes_deployment_v1" "self" {
 
       spec {
         container {
+          name  = "self"
           image = "minio/minio:RELEASE.2022-05-23T18-45-11Z"
-          name  = "minio"
           args  = ["server", "/storage", "--certs-dir", "/certs"]
 
           env {
