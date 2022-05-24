@@ -1,6 +1,6 @@
-resource "kubernetes_deployment_v1" "minio" {
+resource "kubernetes_deployment_v1" "self" {
   metadata {
-    name      = "minio"
+    name      = "self"
     namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 
@@ -114,7 +114,7 @@ resource "kubernetes_deployment_v1" "minio" {
           name = "storage"
 
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim_v1.minio.metadata.0.name
+            claim_name = kubernetes_persistent_volume_claim_v1.storage.metadata.0.name
           }
         }
 
