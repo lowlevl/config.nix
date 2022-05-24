@@ -26,6 +26,28 @@ resource "kubernetes_deployment_v1" "minio" {
           name  = "minio"
           args  = ["server", "/storage", "--certs-dir", "/certs"]
 
+          env {
+            name = "MINIO_ROOT_USER"
+
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret_v1.access_key_id.metadata.0.name
+                key  = "value"
+              }
+            }
+          }
+
+          env {
+            name = "MINIO_ROOT_PASSWORD"
+
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret_v1.secret_access_key.metadata.0.name
+                key  = "value"
+              }
+            }
+          }
+
           volume_mount {
             mount_path = "/storage"
             name       = "storage"
