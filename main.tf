@@ -9,6 +9,11 @@ terraform {
       source  = "hashicorp/random"
       version = "3.2.0"
     }
+
+    minio = {
+      source  = "aminueza/minio"
+      version = "1.5.2"
+    }
   }
 
   required_version = ">= 1.1"
@@ -23,4 +28,5 @@ module "minio" {
 
   ssl_cert_path = var.minio_ssl_cert_path
   ssl_key_path  = var.minio_ssl_key_path
+  node_port     = 5901
 }

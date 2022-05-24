@@ -9,14 +9,14 @@ resource "kubernetes_deployment_v1" "minio" {
 
     selector {
       match_labels = {
-        pods = "minio"
+        provides = "minio"
       }
     }
 
     template {
       metadata {
         labels = {
-          pods = "minio"
+          provides = "minio"
         }
       }
 
@@ -42,8 +42,9 @@ resource "kubernetes_deployment_v1" "minio" {
           }
 
           port {
+            name           = "endpoint"
+            protocol       = "TCP"
             container_port = 9000
-            host_port      = 5901
           }
 
           liveness_probe {
