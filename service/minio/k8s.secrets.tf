@@ -7,7 +7,7 @@ resource "kubernetes_secret_v1" "access_key_id" {
 
   metadata {
     name      = "access-key-id"
-    namespace = kubernetes_namespace_v1.self.metadata[0].name
+    namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 }
 
@@ -29,7 +29,7 @@ resource "kubernetes_secret_v1" "secret_access_key" {
 
   metadata {
     name      = "secret-access-key"
-    namespace = kubernetes_namespace_v1.self.metadata[0].name
+    namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 }
 
@@ -41,6 +41,6 @@ resource "kubernetes_secret_v1" "certificates" {
 
   metadata {
     name      = "certificates"
-    namespace = kubernetes_namespace_v1.self.metadata[0].name
+    namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 }

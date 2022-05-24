@@ -1,7 +1,7 @@
 resource "kubernetes_deployment_v1" "minio" {
   metadata {
     name      = "minio"
-    namespace = kubernetes_namespace_v1.self.metadata[0].name
+    namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 
   spec {
@@ -92,7 +92,7 @@ resource "kubernetes_deployment_v1" "minio" {
           name = "storage"
 
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim_v1.minio.metadata[0].name
+            claim_name = kubernetes_persistent_volume_claim_v1.minio.metadata.0.name
           }
         }
 
@@ -100,7 +100,7 @@ resource "kubernetes_deployment_v1" "minio" {
           name = "certs"
 
           secret {
-            secret_name = kubernetes_secret_v1.certificates.metadata[0].name
+            secret_name = kubernetes_secret_v1.certificates.metadata.0.name
 
             items {
               key  = "public.crt"
