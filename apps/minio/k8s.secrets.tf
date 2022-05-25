@@ -11,9 +11,17 @@ resource "kubernetes_secret_v1" "tls" {
   }
 }
 
-resource "random_uuid" "access_key_id" {}
+resource "random_uuid" "access_key_id" {
+  lifecycle {
+    prevent_destroy = true
+  }
+}
 
 resource "random_password" "secret_access_key" {
+  lifecycle {
+    prevent_destroy = true
+  }
+
   keepers = {
     uuid = random_uuid.access_key_id.result
   }

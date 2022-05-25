@@ -48,6 +48,11 @@ resource "kubernetes_deployment_v1" "self" {
             }
           }
 
+          env {
+            name  = "MINIO_BROWSER"
+            value = "off"
+          }
+
           volume_mount {
             mount_path = "/storage"
             name       = "storage"
@@ -56,6 +61,7 @@ resource "kubernetes_deployment_v1" "self" {
           volume_mount {
             mount_path = "/certs"
             name       = "certs"
+            read_only  = true
           }
 
           volume_mount {

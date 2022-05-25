@@ -9,7 +9,7 @@ resource "kubernetes_persistent_volume_claim_v1" "storageclaim" {
 
     resources {
       requests = {
-        storage = "2Gi"
+        storage = "8Gi"
       }
     }
 
