@@ -1,6 +1,11 @@
 variable "port" {
-  description = "The port of node on which the MinIO server will be bound."
+  description = "The port on which the MinIO server will be bound."
   type        = number
+  nullable    = false
+}
+
+variable "volume" {
+  description = "The volume on which the MinIO server will be bound."
   nullable    = false
 }
 

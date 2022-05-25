@@ -21,7 +21,8 @@ provider "kubernetes" {
 module "minio" {
   source = "./apps/minio"
 
+  port          = 30001
+  volume        = kubernetes_persistent_volume_v1.minio_volume
   ssl_cert_path = var.minio_ssl_cert_path
   ssl_key_path  = var.minio_ssl_key_path
-  port          = 30001
 }

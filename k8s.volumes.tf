@@ -1,25 +1,6 @@
-resource "kubernetes_persistent_volume_claim_v1" "storage" {
+resource "kubernetes_persistent_volume_v1" "minio_volume" {
   metadata {
-    name      = "storage"
-    namespace = kubernetes_namespace_v1.self.metadata.0.name
-  }
-
-  spec {
-    access_modes = ["ReadWriteMany"]
-
-    resources {
-      requests = {
-        storage = "2Gi"
-      }
-    }
-
-    volume_name = kubernetes_persistent_volume_v1.storage.metadata.0.name
-  }
-}
-
-resource "kubernetes_persistent_volume_v1" "storage" {
-  metadata {
-    name = "storage"
+    name = "volume.minio"
   }
 
   spec {
