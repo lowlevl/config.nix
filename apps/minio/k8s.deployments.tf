@@ -76,7 +76,7 @@ resource "kubernetes_deployment_v1" "self" {
               port   = 9000
             }
 
-            initial_delay_seconds = 120
+            initial_delay_seconds = 30
             period_seconds        = 30
             timeout_seconds       = 10
             success_threshold     = 1
@@ -90,7 +90,7 @@ resource "kubernetes_deployment_v1" "self" {
               port   = 9000
             }
 
-            initial_delay_seconds = 120
+            initial_delay_seconds = 30
             period_seconds        = 15
             timeout_seconds       = 10
             success_threshold     = 1
