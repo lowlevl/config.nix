@@ -54,3 +54,10 @@ module "minio" {
   }
   ssl = module.secrets.minio.ssl
 }
+
+# module "outline" {
+#   source = "./apps/outline"
+
+#   port   = 30002
+#   volume = kubernetes_persistent_volume_v1.outline_volume
+# }
