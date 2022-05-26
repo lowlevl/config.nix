@@ -1,9 +1,3 @@
-resource "local_file" "ca" {
-  filename        = "${path.root}/ca.crt"
-  content         = module.secrets.ca
-  file_permission = "0644"
-}
-
 output "minio" {
   sensitive = true
 

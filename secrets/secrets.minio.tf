@@ -1,8 +1,13 @@
-resource "random_uuid" "minio_access_key_id" {}
+resource "random_string" "minio_access_key_id" {
+  length = 32
+
+  special = false
+  lower   = false
+}
 
 resource "random_password" "minio_secret_access_key" {
   keepers = {
-    uuid = random_uuid.minio_access_key_id.result
+    id = random_string.minio_access_key_id.result
   }
 
   length           = 48

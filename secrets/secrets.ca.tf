@@ -27,3 +27,9 @@ resource "tls_self_signed_cert" "ca" {
     common_name  = local.cn
   }
 }
+
+resource "local_file" "ca" {
+  filename        = "${path.root}/ca.crt"
+  content         = tls_self_signed_cert.ca.cert_pem
+  file_permission = "0644"
+}

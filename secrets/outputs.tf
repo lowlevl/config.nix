@@ -1,6 +1,9 @@
 output "ca" {
   description = "The main CA generated via the `hashicorp/tls` provider."
-  value       = tls_self_signed_cert.ca.cert_pem
+  value = {
+    pem  = tls_self_signed_cert.ca.cert_pem
+    path = local_file.ca.filename
+  }
 }
 
 output "minio" {
@@ -8,7 +11,7 @@ output "minio" {
   sensitive   = true
 
   value = {
-    ACCESS_KEY_ID     = random_uuid.minio_access_key_id.result
+    ACCESS_KEY_ID     = random_string.minio_access_key_id.result
     SECRET_ACCESS_KEY = random_password.minio_secret_access_key.result
 
     ssl = {

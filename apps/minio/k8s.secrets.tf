@@ -7,8 +7,8 @@ resource "kubernetes_secret_v1" "tls" {
   immutable = true
 
   metadata {
-    name      = "tls"
-    namespace = kubernetes_namespace_v1.self.metadata.0.name
+    generate_name = "tls-"
+    namespace     = kubernetes_namespace_v1.self.metadata.0.name
   }
 }
 
@@ -20,7 +20,7 @@ resource "kubernetes_secret_v1" "credentials" {
   immutable = true
 
   metadata {
-    name      = "credentials"
-    namespace = kubernetes_namespace_v1.self.metadata.0.name
+    generate_name = "credentials-"
+    namespace     = kubernetes_namespace_v1.self.metadata.0.name
   }
 }
