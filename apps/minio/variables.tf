@@ -9,14 +9,20 @@ variable "volume" {
   nullable    = false
 }
 
-variable "ssl_cert_path" {
-  description = "The local path to the SSL certificate file."
-  type        = string
-  nullable    = false
+variable "ssl" {
+  description = "The SSL certificate and key for the MinIO server."
+  type = object({
+    crt = string
+    key = string
+  })
+  nullable = false
 }
 
-variable "ssl_key_path" {
-  description = "The local path to the SSL private key file."
-  type        = string
-  nullable    = false
+variable "credentials" {
+  description = "The root credentials for the MinIO server."
+  type = object({
+    ACCESS_KEY_ID     = string
+    SECRET_ACCESS_KEY = string
+  })
+  nullable = false
 }

@@ -1,8 +1,8 @@
 resource "kubernetes_secret_v1" "tls" {
   type = "kubernetes.io/tls"
   data = {
-    "tls.crt" = file(var.ssl_cert_path)
-    "tls.key" = file(var.ssl_key_path)
+    "tls.crt" = var.ssl.crt
+    "tls.key" = var.ssl.key
   }
 
   metadata {
@@ -11,31 +11,10 @@ resource "kubernetes_secret_v1" "tls" {
   }
 }
 
-resource "random_uuid" "access_key_id" {
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "random_password" "secret_access_key" {
-  lifecycle {
-    prevent_destroy = true
-  }
-
-  keepers = {
-    uuid = random_uuid.access_key_id.result
-  }
-
-  length           = 48
-  lower            = false
-  min_special      = 1
-  override_special = "/"
-}
-
 resource "kubernetes_secret_v1" "credentials" {
   data = {
-    "ACCESS_KEY_ID"     = random_uuid.access_key_id.result
-    "SECRET_ACCESS_KEY" = random_password.secret_access_key.result
+    "ACCESS_KEY_ID"     = var.credentials["ACCESS_KEY_ID"]
+    "SECRET_ACCESS_KEY" = var.credentials["SECRET_ACCESS_KEY"]
   }
 
   metadata {
