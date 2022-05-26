@@ -23,7 +23,7 @@ resource "kubernetes_persistent_volume_v1" "minio_volume" {
           match_expressions {
             key      = "kubernetes.io/hostname"
             operator = "In"
-            values   = ["d3r.internal"]
+            values   = local.nodes["d3r.internal"].hostnames
           }
         }
       }

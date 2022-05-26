@@ -25,6 +25,20 @@ resource "kubernetes_deployment_v1" "self" {
       }
 
       spec {
+        affinity {
+          node_affinity {
+            required_during_scheduling_ignored_during_execution {
+              node_selector_term {
+                match_expressions {
+                  key      = "kubernetes.io/hostname"
+                  operator = "In"
+                  values   = var.nodes
+                }
+              }
+            }
+          }
+        }
+
         container {
           name  = "self"
           image = "minio/minio:RELEASE.2022-05-26T05-48-41Z"

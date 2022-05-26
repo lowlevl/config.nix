@@ -1,3 +1,9 @@
+variable "nodes" {
+  description = "The nodes hostnames on which the MinIO pods will be scheduled."
+  type        = list(string)
+  nullable    = false
+}
+
 variable "port" {
   description = "The port on which the MinIO server will be bound."
   type        = number

@@ -30,6 +30,7 @@ module "secrets" {
 module "minio" {
   source = "./apps/minio"
 
+  nodes  = local.nodes["d3r.internal"].hostnames
   port   = 30001
   volume = kubernetes_persistent_volume_v1.minio_volume
 
