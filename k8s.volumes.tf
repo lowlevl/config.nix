@@ -6,7 +6,7 @@ resource "kubernetes_persistent_volume_v1" "minio_volume" {
   spec {
     access_modes = ["ReadWriteMany"]
     capacity = {
-      storage = "64Gi"
+      storage = "256Gi"
     }
 
     storage_class_name = "local-path"
