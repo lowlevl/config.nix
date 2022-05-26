@@ -1,8 +1,3 @@
-locals {
-  dns = ["d3r.internal"]
-  ip  = ["10.0.9.1"]
-}
-
 resource "random_uuid" "minio_access_key_id" {}
 
 resource "random_password" "minio_secret_access_key" {
@@ -17,18 +12,18 @@ resource "random_password" "minio_secret_access_key" {
 }
 
 resource "tls_private_key" "minio_ssl" {
-  algorithm   = tls_private_key.ca.algorithm
-  ecdsa_curve = tls_private_key.ca.ecdsa_curve
+  algorithm = tls_private_key.ca.algorithm
+  rsa_bits  = tls_private_key.ca.rsa_bits
 }
 
 resource "tls_cert_request" "minio_ssl" {
   private_key_pem = tls_private_key.minio_ssl.private_key_pem
-  dns_names       = local.dns
-  ip_addresses    = local.ip
+  dns_names       = var.minio.hostnames
+  ip_addresses    = var.minio.ip
 
   subject {
     organization = tls_self_signed_cert.ca.subject.0.organization
-    common_name  = local.dns.0
+    common_name  = var.minio.hostnames.0
   }
 }
 

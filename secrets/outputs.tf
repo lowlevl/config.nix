@@ -1,9 +1,11 @@
 output "ca" {
-  value = tls_self_signed_cert.ca.cert_pem
+  description = "The main CA generated via the `hashicorp/tls` provider."
+  value       = tls_self_signed_cert.ca.cert_pem
 }
 
 output "minio" {
-  sensitive = true
+  description = "The secrets for the `MinIO` app."
+  sensitive   = true
 
   value = {
     ACCESS_KEY_ID     = random_uuid.minio_access_key_id.result

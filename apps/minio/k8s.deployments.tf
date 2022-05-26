@@ -18,6 +18,10 @@ resource "kubernetes_deployment_v1" "self" {
         labels = {
           provides = "minio"
         }
+
+        annotations = {
+          "keepers.terraform.io" = "${kubernetes_secret_v1.tls.metadata.0.uid}:${kubernetes_secret_v1.credentials.metadata.0.uid}"
+        }
       }
 
       spec {

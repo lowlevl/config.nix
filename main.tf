@@ -20,6 +20,11 @@ provider "kubernetes" {
 
 module "secrets" {
   source = "./secrets"
+
+  minio = {
+    ip        = [local.nodes["d3r.internal"].ip]
+    hostnames = local.nodes["d3r.internal"].hostnames
+  }
 }
 
 module "minio" {

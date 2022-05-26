@@ -4,6 +4,7 @@ resource "kubernetes_secret_v1" "tls" {
     "tls.crt" = var.ssl.crt
     "tls.key" = var.ssl.key
   }
+  immutable = true
 
   metadata {
     name      = "tls"
@@ -16,6 +17,7 @@ resource "kubernetes_secret_v1" "credentials" {
     "ACCESS_KEY_ID"     = var.credentials["ACCESS_KEY_ID"]
     "SECRET_ACCESS_KEY" = var.credentials["SECRET_ACCESS_KEY"]
   }
+  immutable = true
 
   metadata {
     name      = "credentials"
