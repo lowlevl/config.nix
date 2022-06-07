@@ -1,8 +1,8 @@
 resource "kubernetes_secret_v1" "tls" {
   type = "kubernetes.io/tls"
   data = {
-    "tls.crt" = var.ssl.crt
-    "tls.key" = var.ssl.key
+    "tls.crt" = var.tls.crt
+    "tls.key" = var.tls.key
   }
   immutable = true
 

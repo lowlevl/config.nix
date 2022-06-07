@@ -1,6 +1,6 @@
-resource "kubernetes_persistent_volume_claim_v1" "database" {
+resource "kubernetes_persistent_volume_claim_v1" "postgres" {
   metadata {
-    name      = "database"
+    name      = "postgres"
     namespace = kubernetes_namespace_v1.self.metadata.0.name
   }
 
@@ -9,7 +9,7 @@ resource "kubernetes_persistent_volume_claim_v1" "database" {
 
     resources {
       requests = {
-        storage = "2Gi"
+        storage = "8Gi"
       }
     }
 

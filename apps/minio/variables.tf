@@ -1,9 +1,3 @@
-variable "nodes" {
-  description = "The nodes hostnames on which the MinIO pods will be scheduled."
-  type        = list(string)
-  nullable    = false
-}
-
 variable "port" {
   description = "The port on which the MinIO server will be bound."
   type        = number
@@ -15,8 +9,8 @@ variable "volume" {
   nullable    = false
 }
 
-variable "ssl" {
-  description = "The SSL certificate and key for the MinIO server."
+variable "tls" {
+  description = "The TLS certificate and key for the MinIO server."
   type = object({
     crt = string
     key = string
