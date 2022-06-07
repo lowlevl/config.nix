@@ -28,7 +28,7 @@ resource "tls_cert_request" "minio_ssl" {
 
   subject {
     organization = tls_self_signed_cert.ca.subject.0.organization
-    common_name  = var.minio.hostnames.0
+    common_name  = "minio.services.k8s"
   }
 }
 

@@ -1,4 +1,8 @@
-resource "kubernetes_persistent_volume_v1" "minio_volume" {
+locals {
+  hostnames = ["d3r.internal"]
+}
+
+resource "kubernetes_persistent_volume_v1" "minio" {
   metadata {
     name = "volume.minio"
   }
@@ -23,7 +27,7 @@ resource "kubernetes_persistent_volume_v1" "minio_volume" {
           match_expressions {
             key      = "kubernetes.io/hostname"
             operator = "In"
-            values   = local.affinity.minio.hostnames
+            values   = local.hostnames
           }
         }
       }
@@ -31,35 +35,35 @@ resource "kubernetes_persistent_volume_v1" "minio_volume" {
   }
 }
 
-# resource "kubernetes_persistent_volume_v1" "outline_volume" {
-#   metadata {
-#     name = "volume.outline"
-#   }
+resource "kubernetes_persistent_volume_v1" "outline" {
+  metadata {
+    name = "volume.outline"
+  }
 
-#   spec {
-#     access_modes = ["ReadWriteMany"]
-#     capacity = {
-#       storage = "8Gi"
-#     }
+  spec {
+    access_modes = ["ReadWriteMany"]
+    capacity = {
+      storage = "8Gi"
+    }
 
-#     storage_class_name = "local-path"
+    storage_class_name = "local-path"
 
-#     persistent_volume_source {
-#       local {
-#         path = "/srv/k3s/outline"
-#       }
-#     }
+    persistent_volume_source {
+      local {
+        path = "/srv/k3s/outline"
+      }
+    }
 
-#     node_affinity {
-#       required {
-#         node_selector_term {
-#           match_expressions {
-#             key      = "kubernetes.io/hostname"
-#             operator = "In"
-#             values   = ["d3r.internal"]
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key      = "kubernetes.io/hostname"
+            operator = "In"
+            values   = local.hostnames
+          }
+        }
+      }
+    }
+  }
+}
