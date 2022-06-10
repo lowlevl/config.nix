@@ -8,7 +8,7 @@ module "secrets" {
 }
 
 module "minio" {
-  source = "./apps/minio"
+  source = "./deployments/minio"
 
   port   = var.loadbalancer.services["minio"].port
   volume = kubernetes_persistent_volume_v1.minio
@@ -21,7 +21,7 @@ module "minio" {
 }
 
 module "outline" {
-  source = "./apps/outline"
+  source = "./deployments/outline"
 
   port   = var.loadbalancer.services["outline"].port
   volume = kubernetes_persistent_volume_v1.outline
