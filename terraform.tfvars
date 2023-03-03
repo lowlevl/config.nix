@@ -1,20 +1,14 @@
 # The node configuration
 node = {
-  ip = "10.0.9.1"
+  ip       = "10.0.9.1"
+  hostname = "d3r.internal"
+}
 
-  services = {
-    # MinIO instance
-    minio = {
-      scheme   = "https"
-      hostname = "d3r.internal"
-      port     = 30001
-    }
-
-    # Outline instance
-    outline = {
-      scheme   = "http"
-      hostname = "d3r.internal"
-      port     = 30002
-    }
+# The services configuration
+services = {
+  # MinIO instance
+  minio = {
+    scheme = "https"
+    port   = 30001
   }
 }
