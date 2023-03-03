@@ -1,5 +1,5 @@
-# The external load-balancer configuration
-loadbalancer = {
+# The node configuration
+node = {
   ip = "10.0.9.1"
 
   services = {

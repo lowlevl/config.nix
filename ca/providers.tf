@@ -2,17 +2,12 @@ terraform {
   required_providers {
     local = {
       source  = "hashicorp/local"
-      version = "2.2.3"
+      version = "2.3.0"
     }
 
     tls = {
       source  = "hashicorp/tls"
-      version = "3.4.0"
-    }
-
-    random = {
-      source  = "hashicorp/random"
-      version = "3.2.0"
+      version = "4.0.4"
     }
   }
 }
