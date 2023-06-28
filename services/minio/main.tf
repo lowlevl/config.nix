@@ -13,7 +13,7 @@ resource "helm_release" "release" {
 
   set {
     name  = "image.tag"
-    value = "2023.2.27-debian-11-r1"
+    value = "2023.6.23-debian-11-r0"
   }
 
   set {
