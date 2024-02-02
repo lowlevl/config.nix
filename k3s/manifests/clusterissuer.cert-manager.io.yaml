@@ -5,14 +5,14 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: ${email}
+    email: postmaster@unw.re
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress:
-          class: traefik
+      - http01:
+          ingress:
+            ingressClassName: traefik
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -20,11 +20,11 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: ${email}
+    email: postmaster@unw.re
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-    - http01:
-        ingress:
-          class: traefik
+      - http01:
+          ingress:
+            ingressClassName: traefik
