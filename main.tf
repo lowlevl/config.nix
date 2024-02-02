@@ -1,28 +1,28 @@
-
-module "k8s" {
-  source = "./k8s"
+# Provision the k3s cluster with basic functionalities and get credentials
+module "k3s" {
+  source = "./k3s"
 
   address = "s.unw.re"
   port    = 223
 }
 
 provider "kubernetes" {
-  host = module.k8s.endpoint
+  host = module.k3s.endpoint
 
-  username               = module.k8s.config.users[0].name
-  cluster_ca_certificate = base64decode(module.k8s.config.clusters[0].cluster.certificate-authority-data)
-  client_certificate     = base64decode(module.k8s.config.users[0].user.client-certificate-data)
-  client_key             = base64decode(module.k8s.config.users[0].user.client-key-data)
+  username               = module.k3s.config.users[0].name
+  cluster_ca_certificate = base64decode(module.k3s.config.clusters[0].cluster.certificate-authority-data)
+  client_certificate     = base64decode(module.k3s.config.users[0].user.client-certificate-data)
+  client_key             = base64decode(module.k3s.config.users[0].user.client-key-data)
 }
 
 provider "helm" {
   kubernetes {
-    host = module.k8s.endpoint
+    host = module.k3s.endpoint
 
-    username               = module.k8s.config.users[0].name
-    cluster_ca_certificate = base64decode(module.k8s.config.clusters[0].cluster.certificate-authority-data)
-    client_certificate     = base64decode(module.k8s.config.users[0].user.client-certificate-data)
-    client_key             = base64decode(module.k8s.config.users[0].user.client-key-data)
+    username               = module.k3s.config.users[0].name
+    cluster_ca_certificate = base64decode(module.k3s.config.clusters[0].cluster.certificate-authority-data)
+    client_certificate     = base64decode(module.k3s.config.users[0].user.client-certificate-data)
+    client_key             = base64decode(module.k3s.config.users[0].user.client-key-data)
   }
 }
 
