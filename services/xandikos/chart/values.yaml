@@ -1,0 +1,60 @@
+# Default values for xandikos.
+
+# Set the number of replicas
+replicaCount: 1
+
+image:
+  registry: ghcr.io
+  repository: jelmer/xandikos
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+deployment:
+  securityContext:
+    runAsUser: 63456
+    runAsGroup: 63456
+    fsGroup: 63456
+
+  updateStrategy:
+    # Specify the type of update strategy
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+service:
+  type: ClusterIP
+  ports:
+    http: 8080
+    metrics: 8081
+  externalTrafficPolicy: Cluster
+  annotations: {}
+
+ingress:
+  enabled: true
+  apiVersion: ""
+
+  path: /
+  pathType: ImplementationSpecific
+
+  ingressClassName: ""
+  hostname: "xandikos.local"
+  annotations: {}
+  tls: false
+  selfSigned: false
+
+persistence:
+  enabled: true
+  size: 64Mi
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  annotations: {}
+  existingClaim: ""
+
+commonLabels: {}
+
+commonAnnotations: {}
+
+podAnnotations: {}

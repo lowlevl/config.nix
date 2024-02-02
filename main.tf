@@ -34,4 +34,11 @@ module "ca" {
   cn  = "R0"
 }
 
+# A CalDAV/CardDAV server.
+module "xandikos" {
+  source = "./services/xandikos"
+  tag    = "0.0.0-alpha.2"
 
+  hostname = "cal.unw.re"
+  username = "user"
+}
