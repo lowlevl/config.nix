@@ -37,10 +37,10 @@ Changes will be applied after reboot.
 
 Create file `/etc/local.d/99-cpufan.start` and make it executable with the following contents:
 ```
-echo 'pwm_80' > /dev/ttyUSB0
+echo 'pwm_080' > /dev/ttyUSB0
 ```
 
-> ℹ️ You can change the speed by using a different speed percentage prefixed by `pwm_`, in example `pwm_100` means 100% and `pwm_12` means 12%.
+> ℹ️ You can change the speed by using a different speed percentage prefixed by `pwm_`, in example `pwm_100` means 100% and `pwm_012` means 12%.
 
 Then, enable `/etc/local.d` scripts at startup:
 ```
