@@ -58,7 +58,7 @@ To allow `k3s` to function correctly, we also need to the `cgroup_memory=1 cgrou
 
 Altering the k3s configuration can be done by editing `/etc/conf.d/k3s`, and specifying some `K3S_OPTS`, mine are
 ```
-K3S_OPTS="--disable=servicelb --disable-cloud-controller"
+K3S_OPTS="--disable=servicelb --disable-cloud-controller --secrets-encryption"
 ```
 - `--disable=servicelb` is used there because it sometimes shadows real IP addresses to the services,
 notably making Traefik unaware of the client's IP address
