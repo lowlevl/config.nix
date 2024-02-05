@@ -10,5 +10,6 @@ resource "kubectl_manifest" "manifests" {
 
   server_side_apply = true
   yaml_body         = each.value
+  force_new         = true
   wait              = true
 }
