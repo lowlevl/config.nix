@@ -47,24 +47,41 @@ Then, enable `/etc/local.d` scripts at startup:
 $ rc-update add local default
 ```
 
-### Setting up the k3s cluster on Alpine
+### Setting up automatic updates on Alpine
+
+We're going to be using the `/etc/periodic` facility, and for this I settled on doing `daily` updates.
+
+To setup the daily `apk` upgrades, we create a file called `/etc/periodic/daily/apk-autoupgrade` with the content
+```
+#!/bin/sh
+
+apk upgrade --update | sed "s/^/[`date`] /" >> /var/log/apk-autoupgrade.log
+```
+
+Finally we just have to make the file executable by running
+```
+$ chmod +x /etc/periodic/daily/apk-autoupgrade
+```
+
+### Setting up the `k3s` cluster on Alpine
 
 Install `k3s` on the node by issuing the following command
 ```
 $ apk add k3s
 ```
 
-To allow `k3s` to function correctly, we also need to the `cgroup_memory=1 cgroup_enable=memory` to the `/boot/cmdline.txt` file.
+To allow `k3s` to function correctly, we also need to add `cgroup_memory=1 cgroup_enable=memory` to the `/boot/cmdline.txt` file to enable `cgroups`.
 
-Altering the k3s configuration can be done by editing `/etc/conf.d/k3s`, and specifying some `K3S_OPTS`, mine are
+Altering the `k3s` configuration can be done by editing `/etc/conf.d/k3s`, and specifying some `K3S_OPTS`, mine are
 ```
 K3S_OPTS="--disable=servicelb --disable-cloud-controller --secrets-encryption"
 ```
 - `--disable=servicelb` is used there because it sometimes shadows real IP addresses to the services,
-notably making Traefik unaware of the client's IP address
-- `--disable-cloud-controller` is specified to remove the overhead of having this component I won't use
+notably making Traefik unaware of the client's IP address.
+- `--disable-cloud-controller` is specified to remove the overhead of having this component I won't use.
+- `--secrets-encryption` is specified to enable secrets encryption at rest.
 
-Then we can enable the service, and reboot to apply the `cmdline` and start `k3s`
+Then we can enable the service, and **reboot** to apply the `cmdline` and start `k3s`
 ```
 $ rc-update add k3s
 $ reboot
@@ -73,4 +90,41 @@ $ reboot
 After rebooting, we can confirm everything worked by issuing
 ```
 $ kubectl get node -o wide
+```
+
+### Setting up the incremental backups using `rdiff-backup`
+
+Install the `rdiff-backup` utility
+```
+$ apk add rdiff-backup
+```
+
+Our incremental backups will be saved in `/var/backup`, so we create the directory and setup the permissions
+```
+$ mkdir /var/backup
+$ chmod 600 /var/backup
+```
+
+Then the backup is going to be using the `/etc/periodic` facility, and for this I settled on doing `hourly` backups.
+
+To setup the hourly backup, we're going to create a new file called `/etc/periodic/hourly/volume-backups` with the following content
+```
+#!/bin/sh
+
+LOGFILE="/var/log/volume-backups.log"
+BACKLOG="2W" # keep two weeks of backups
+
+SOURCE="/var/lib/rancher/k3s/storage"
+DESTINATION="/var/backup/volume-backups"
+
+# Ensure the destination directory exists
+mkdir -p "$DESTINATION"
+
+rdiff-backup backup --print-statistics "$SOURCE" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
+rdiff-backup remove increments --older-than "$BACKLOG" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
+```
+
+Finally we just have to make the file executable by running
+```
+$ chmod +x /etc/periodic/hourly/volume-backups
 ```
