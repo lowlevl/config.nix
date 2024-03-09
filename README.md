@@ -87,6 +87,11 @@ $ rc-update add k3s
 $ reboot
 ```
 
+If you happen to have `ufw` installed, _which I have_, you should also allow in-cluster communication:
+```
+$ ufw allow from 10.42.0.0/16 to any # allow ingress from pods
+```
+
 After rebooting, we can confirm everything worked by issuing
 ```
 $ kubectl get node -o wide
@@ -120,8 +125,8 @@ DESTINATION="/var/backup/volume-backups"
 # Ensure the destination directory exists
 mkdir -p "$DESTINATION"
 
-rdiff-backup backup --print-statistics "$SOURCE" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
-rdiff-backup remove increments --older-than "$BACKLOG" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
+rdiff-backup --api-version 201 remove increments --older-than "$BACKLOG" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
+rdiff-backup --api-version 201 backup --print-statistics "$SOURCE" "$DESTINATION" 2>&1 | sed "s/^/[`date`] /" >> $LOGFILE
 ```
 
 Finally we just have to make the file executable by running
