@@ -12,10 +12,6 @@ resource "helm_release" "release" {
   namespace         = kubernetes_namespace_v1.namespace.metadata[0].name
 
   set {
-    name  = "image.repository"
-    value = "lowlevl/xandikos"
-  }
-  set {
     name  = "image.tag"
     value = var.tag
   }
