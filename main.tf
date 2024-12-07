@@ -1,4 +1,4 @@
-# Provision the k3s cluster with basic functionalities and get credentials
+# Provision the k3s cluster with basic functionalities and get credentials.
 module "k3s" {
   source = "./k3s"
 
@@ -9,20 +9,20 @@ module "k3s" {
 provider "kubernetes" {
   host = module.k3s.endpoint
 
-  username               = module.k3s.config.users[0].name
-  cluster_ca_certificate = base64decode(module.k3s.config.clusters[0].cluster.certificate-authority-data)
-  client_certificate     = base64decode(module.k3s.config.users[0].user.client-certificate-data)
-  client_key             = base64decode(module.k3s.config.users[0].user.client-key-data)
+  username               = module.k3s.config.username
+  cluster_ca_certificate = module.k3s.config.cluster_ca_certificate
+  client_certificate     = module.k3s.config.client_certificate
+  client_key             = module.k3s.config.client_key
 }
 
 provider "helm" {
   kubernetes {
     host = module.k3s.endpoint
 
-    username               = module.k3s.config.users[0].name
-    cluster_ca_certificate = base64decode(module.k3s.config.clusters[0].cluster.certificate-authority-data)
-    client_certificate     = base64decode(module.k3s.config.users[0].user.client-certificate-data)
-    client_key             = base64decode(module.k3s.config.users[0].user.client-key-data)
+    username               = module.k3s.config.username
+    cluster_ca_certificate = module.k3s.config.cluster_ca_certificate
+    client_certificate     = module.k3s.config.client_certificate
+    client_key             = module.k3s.config.client_key
   }
 }
 
