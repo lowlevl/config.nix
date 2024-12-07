@@ -1,6 +1,13 @@
 resource "random_password" "password" {
   length  = 48
   special = false
+
+  lifecycle {
+    ignore_changes = [
+      length,
+      special,
+    ]
+  }
 }
 
 resource "kubernetes_secret_v1" "secret" {

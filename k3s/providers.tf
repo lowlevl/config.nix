@@ -2,11 +2,11 @@ terraform {
   required_providers {
     remote = {
       source  = "tenstad/remote"
-      version = "0.1.2"
+      version = "0.1.3"
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
-      version = "1.14.0"
+      version = "1.18.0"
     }
   }
 }

@@ -9,7 +9,9 @@ resource "helm_release" "release" {
   chart = "${path.module}/chart"
 
   dependency_update = true
-  namespace         = kubernetes_namespace_v1.namespace.metadata[0].name
+  wait              = true
+
+  namespace = kubernetes_namespace_v1.namespace.metadata[0].name
 
   set {
     name  = "image.tag"
