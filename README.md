@@ -133,3 +133,30 @@ Finally we just have to make the file executable by running
 ```
 $ chmod +x /etc/periodic/hourly/volume-backups
 ```
+
+### Setup a `git-annex` remote for data storage
+
+Install the `git-annex` package to the server
+```
+$ apk add git-annex
+```
+
+Create a user named `librarian` to hold our annex(es)
+```
+$ useradd --system --create-home --password '*' --shell /usr/bin/git-annex-shell librarian
+```
+
+Set the git configuration up and create the `library.git` annex
+```
+$ su -s /bin/ash -l librarian -c 'git config --global user.name "Librarian"'
+$ su -s /bin/ash -l librarian -c 'git init --bare library.git'
+Initialized empty Git repository in /home/librarian/library.git/
+$ su -s /bin/ash -l librarian -c 'cd library.git && git annex init'
+init  ok
+(recording state in git...)
+```
+
+Authorize our public key to only access the `library.git` annex only using the environment settings of `git-annex-shell` and the `restrict` setting of OpenSSH by adding this line to the `.ssh/authorized_keys` file of the user (replacing `<key>` with yours)
+```
+environment="GIT_ANNEX_SHELL_LIMITED=true",environment="GIT_ANNEX_SHELL_DIRECTORY=~/library.git",restrict <key>
+```
