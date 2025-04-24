@@ -134,11 +134,13 @@ Finally we just have to make the file executable by running
 $ chmod +x /etc/periodic/hourly/volume-backups
 ```
 
-### Setup a `git-annex` remote for data storage
+### Setup a `git-annex` an encrypted remote for data storage
 
-Install the `git-annex` package to the server
+#### Server-side configuration
+
+Install `git-annex`, `cryptsetup` and `gpg` on the server
 ```
-$ apk add git-annex
+$ apk add git-annex cryptsetup gpg 
 ```
 
 Create a user named `librarian` to hold our annex(es)
@@ -146,17 +148,44 @@ Create a user named `librarian` to hold our annex(es)
 $ useradd --system --create-home --password '*' --shell /usr/bin/git-annex-shell librarian
 ```
 
+
+
 Set the git configuration up and create the `library.git` annex
 ```
 $ su -s /bin/ash -l librarian -c 'git config --global user.name "Librarian"'
 $ su -s /bin/ash -l librarian -c 'git init --bare library.git'
 Initialized empty Git repository in /home/librarian/library.git/
-$ su -s /bin/ash -l librarian -c 'cd library.git && git annex init'
-init  ok
-(recording state in git...)
 ```
 
 Authorize our public key to only access the `library.git` annex only using the environment settings of `git-annex-shell` and the `restrict` setting of OpenSSH by adding this line to the `.ssh/authorized_keys` file of the user (replacing `<key>` with yours)
 ```
 environment="GIT_ANNEX_SHELL_LIMITED=true",environment="GIT_ANNEX_SHELL_DIRECTORY=~/library.git",restrict <key>
+```
+
+#### Client-side configuration
+
+```
+$ pamac install git-annex
+```
+
+- Create your local annex
+
+```
+$ mkdir ~/Library && cd ~/Library
+$ git init
+$ git annex init
+$ git config set annex.sshcaching true
+```
+
+```
+$ git annex initremote library.zion.internal type=rsync rsyncurl=librarian@s.unw.re:library.rsync encryption=hybrid keyid=virtual+xps-15-9500@unw.re --with-url
+
+$ git annex enableremote library.zion.internal keyid+=<another-key>
+
+$ git config remote.library.zion.internal.annex-rsync-transport "ssh -p 223"
+$ git config remote.library.zion.internal.annex-allow-encrypted-gitrepo true
+```
+
+```
+$ git annex assistant --autostart
 ```
