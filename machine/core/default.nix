@@ -6,7 +6,7 @@
 }: let
   sources = import ../../sources.nix;
 
-  pull-switch = import ../../pkgs/pull-switch.nix;
+  pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
 in {
   imports = [
     ./hardware-configuration.nix
@@ -14,14 +14,18 @@ in {
     # - Hardware configuration
     "${sources.nixos-hardware}/raspberry-pi/4"
 
-    ({ pkgs, ... }: {
+    ({pkgs, ...}: {
       hardware = {
+        deviceTree.enable = true;
+
         raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-        deviceTree = {
-          enable = true;
-          filter = "*rpi-4-*.dtb";
-        };
+        raspberry-pi."4".dwc2.enable = true;
+        raspberry-pi."4".xhci.enable = true;
       };
+
+      # `initrd` networking modules
+      boot.initrd.availableKernelModules = ["smsc95xx" "usbnet"];
+
       environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
     })
 

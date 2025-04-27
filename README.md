@@ -10,18 +10,6 @@ Repository to store and increment on my IaC, using NixOS.
 - Case: DeskPi Pro
 - Drive: Kingston DC500M 960GB
 
-### Enable front USB ports
-
-Here is some context from the DeskPi's documentation,
-> The front USB function is coming from `dwc2` overlay, it selects the `dwc2` USB controller driver, and `dr_mode` can be `host`, `peripheral` or `otg`. here, `dwc2` mode must be `host`.
-
-So we need to alter the `/boot/usercfg.txt` file to add this line:
-```
-dtoverlay=dwc2,dr_mode=host
-```
-
-Changes will be applied after reboot.
-
 ### Enable the CPU fan at fixed speed
 
 > ⚠️ You need to enable **front USB ports** as described earlier, the CPU fan is hooked up to the front hub.
