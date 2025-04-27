@@ -3,6 +3,7 @@
   services.openssh = {
     enable = true;
 
+    ports = [223];
     openFirewall = true;
     startWhenNeeded = true;
 
