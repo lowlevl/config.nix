@@ -19,7 +19,10 @@ in {
         deviceTree.enable = true;
 
         raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-        raspberry-pi."4".dwc2.enable = true;
+        raspberry-pi."4".dwc2 = { 
+          enable = true;
+          dr_mode = "host";
+        };
       };
 
       # `initrd` networking modules
