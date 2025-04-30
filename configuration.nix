@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  sources = import ../../sources.nix;
+  sources = import ./sources.nix;
 
-  pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
+  pull-switch = pkgs.callPackage ./pkgs/pull-switch.nix {};
 in {
   imports = [
     ./hardware-configuration.nix
@@ -20,7 +20,7 @@ in {
         deviceTree.name = "broadcom/bcm2711-rpi-4-b.dtb";
 
         raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-        raspberry-pi."4".dwc2 = { 
+        raspberry-pi."4".dwc2 = {
           enable = true;
           dr_mode = "host";
         };
@@ -32,11 +32,11 @@ in {
       environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
     })
 
-    ../../mod/env.nix
-    ../../mod/ssh.nix
-    ../../mod/users.nix
-    ../../mod/locale.nix
-    ../../mod/decrypt.nix
+    ./mod/env.nix
+    ./mod/ssh.nix
+    ./mod/users.nix
+    ./mod/locale.nix
+    ./mod/decrypt.nix
   ];
 
   # - Bootloader configuration
