@@ -54,6 +54,45 @@ in {
 
   environment.systemPackages = [pull-switch];
 
+  ## - Reverse proxy configuration
+  networking.firewall.allowedTCPPorts = [80 443];
+  services.traefik = {
+    enable = true;
+
+    staticConfigOptions = {
+      entryPoints = {
+        web = {
+          address = ":80";
+          asDefault = true;
+
+          http.redirections.entrypoint = {
+            to = "websecure";
+            scheme = "https";
+          };
+        };
+
+        websecure = {
+          address = ":443";
+          asDefault = true;
+
+          http.tls.certResolver = "letsencrypt";
+        };
+      };
+
+      log = {
+        level = "WARN";
+        format = "json";
+        filePath = "${config.services.traefik.dataDir}/traefik.log";
+      };
+
+      certificatesResolvers.letsencrypt.acme = {
+        email = "postmaster@unw.re";
+        storage = "${config.services.traefik.dataDir}/acme.json";
+        httpChallenge.entryPoint = "web";
+      };
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
