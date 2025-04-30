@@ -57,53 +57,34 @@ in {
   environment.systemPackages = [pull-switch];
 
   ## - Reverse proxy configuration
-  networking.firewall.allowedTCPPorts = [80 443];
-  services.traefik = {
+  services.caddy = {
     enable = true;
+    email = "postmaster@unw.re";
 
-    staticConfigOptions = {
-      entryPoints = {
-        web = {
-          address = ":80";
-          asDefault = true;
-
-          http.redirections.entrypoint = {
-            to = "websecure";
-            scheme = "https";
-          };
-        };
-
-        websecure = {
-          address = ":443";
-          asDefault = true;
-
-          http.tls.certResolver = "letsencrypt";
-        };
-      };
-
-      log = {
-        level = "WARN";
-        format = "json";
-        filePath = "${config.services.traefik.dataDir}/traefik.log";
-      };
-
-      certificatesResolvers.letsencrypt.acme = {
-        email = "postmaster@unw.re";
-        storage = "${config.services.traefik.dataDir}/acme.json";
-        httpChallenge.entryPoint = "web";
-      };
+    virtualHosts.":80, :443" = {
+      extraConfig = ''
+        respond <<EOF
+                  ／＞   フ
+                  |  _  _| 
+                ／` ミ＿xノ 
+               /        |
+              /   ヽ    ﾉ
+              │    | | |
+          ／￣|    | | |
+          ( ( ヽ＿_ヽ_)__)
+          ＼_) we did not find what you were looking for...
+          EOF 404
+      '';
+      logFormat = "";
     };
   };
+  networking.firewall.allowedTCPPorts = [80 443];
 
   ## - Services configuration
   services.xandikos = {
     enable = false;
 
     port = 11101;
-
-    traefik.enable = true;
-    traefik.hostName = "test.unw.re";
-    traefik.certResolver = "letsencrypt";
   };
 
   # This value determines the NixOS release from which the default
