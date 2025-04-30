@@ -32,7 +32,14 @@ in {
     ../../mod/ssh.nix
     ../../mod/users.nix
     ../../mod/locale.nix
+    ../../mod/decrypt.nix
   ];
+
+  # - Bootloader configuration
+  boot.loader = {
+    systemd-boot.enable = true;
+    generic-extlinux-compatible.enable = false;
+  };
 
   # - Services and miscellaneous configuration
   networking.hostName = "core";
