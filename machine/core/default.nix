@@ -20,7 +20,6 @@ in {
 
         raspberry-pi."4".apply-overlays-dtmerge.enable = true;
         raspberry-pi."4".dwc2.enable = true;
-        raspberry-pi."4".xhci.enable = true;
       };
 
       # `initrd` networking modules
