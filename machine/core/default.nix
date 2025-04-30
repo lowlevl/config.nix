@@ -37,8 +37,11 @@ in {
 
   # - Bootloader configuration
   boot.loader = {
-    systemd-boot.enable = true;
     generic-extlinux-compatible.enable = false;
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
   };
 
   # - Services and miscellaneous configuration
