@@ -44,7 +44,7 @@ in {
     generic-extlinux-compatible.enable = false;
     systemd-boot = {
       enable = true;
-      configurationLimit = 10;
+      configurationLimit = 3;
     };
   };
 
