@@ -62,20 +62,22 @@ in {
     email = "postmaster@unw.re";
 
     virtualHosts.":80, :443" = {
-      extraConfig = ''
-        respond <<EOF
+      logFormat = "output discard";
+      extraConfig = let
+        response = ''
                   ／＞   フ
-                  |  _  _| 
-                ／` ミ＿xノ 
+                  |  _  _|
+                ／` ミ＿xノ
                /        |
               /   ヽ    ﾉ
               │    | | |
           ／￣|    | | |
           ( ( ヽ＿_ヽ_)__)
           ＼_) we did not find what you were looking for...
-          EOF 404
+        '';
+      in ''
+        respond "${response}" 404
       '';
-      logFormat = "";
     };
   };
   networking.firewall.allowedTCPPorts = [80 443];
