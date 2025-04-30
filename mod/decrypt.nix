@@ -10,9 +10,9 @@
     enable = true;
     ssh = {
       enable = true;
-      port = builtins.head config.services.openssh.ports;
+      port = 222;
       shell = "/bin/cryptsetup-askpass";
-      hostKeys = ["/etc/secrets/initrd/ssh_host_ecdsa_key"];
+      hostKeys = ["/etc/secrets/initrd/ssh_host_ed25519_key"];
       authorizedKeys = lib.concatLists (lib.mapAttrsToList (name: user:
         if lib.elem "wheel" user.extraGroups
         then user.openssh.authorizedKeys.keys
