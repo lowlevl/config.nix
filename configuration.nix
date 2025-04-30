@@ -37,6 +37,8 @@ in {
     ./mod/users.nix
     ./mod/locale.nix
     ./mod/decrypt.nix
+
+    ./mod/xandikos.nix
   ];
 
   # - Bootloader configuration
@@ -91,6 +93,17 @@ in {
         httpChallenge.entryPoint = "web";
       };
     };
+  };
+
+  ## - Services configuration
+  services.xandikos = {
+    enable = false;
+
+    port = 11101;
+
+    traefik.enable = true;
+    traefik.hostName = "test.unw.re";
+    traefik.certResolver = "letsencrypt";
   };
 
   # This value determines the NixOS release from which the default
