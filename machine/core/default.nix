@@ -17,6 +17,7 @@ in {
     ({pkgs, ...}: {
       hardware = {
         deviceTree.enable = true;
+        deviceTree.name = "broadcom/bcm2711-rpi-4-b.dtb";
 
         raspberry-pi."4".apply-overlays-dtmerge.enable = true;
         raspberry-pi."4".dwc2 = { 
