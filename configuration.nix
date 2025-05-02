@@ -84,9 +84,11 @@ in {
 
   ## - Services configuration
   services.xandikos = {
-    enable = false;
+    enable = true;
+    port = 11111;
 
-    port = 11101;
+    caddy.enable = true;
+    caddy.hostName = "test.unw.re";
   };
 
   # This value determines the NixOS release from which the default
