@@ -1,8 +1,8 @@
 #^ nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
 keys:
   - &me >-
-    2572AB455CFE0D0AD221434E841AD164D942D3D9!,
-    890B1B924CBD066D0485C682FC8C6BD101A0EF00!
+    2572AB455CFE0D0AD221434E841AD164D942D3D9,
+    890B1B924CBD066D0485C682FC8C6BD101A0EF00
   - &nyx age1kn5kanmdw5muggpnp7zxajqms6ps2vnsv30mg4g3f7x7pc3233sqtasugu
 
 stores:

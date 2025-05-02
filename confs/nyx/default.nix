@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -7,6 +8,8 @@
   pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
 in {
   imports = [
+    inputs.sops-nix.nixosModules.sops
+
     ./hardware-configuration.nix
     ./raspberry-pi-4.nix
 
@@ -26,6 +29,15 @@ in {
     systemd-boot = {
       enable = true;
       configurationLimit = 3;
+    };
+  };
+
+  # - Secrets configuration
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+
+    secrets."xandikos/users" = {
+       owner = config.services.caddy.user;
     };
   };
 
@@ -67,6 +79,10 @@ in {
     port = 11111;
   };
   services.caddy.virtualHosts."test.unw.re".extraConfig = ''
+    basic_auth * bcrypt "You shall not pass >:(" {
+      import "${config.sops.secrets."xandikos/users".path}"
+    }
+
     reverse_proxy ${config.services.xandikos.address}:${builtins.toString config.services.xandikos.port}
   '';
 
