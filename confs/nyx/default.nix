@@ -8,24 +8,7 @@
 in {
   imports = [
     ./hardware-configuration.nix
-
-    ({pkgs, ...}: {
-      hardware = {
-        deviceTree.enable = true;
-        deviceTree.name = "broadcom/bcm2711-rpi-4-b.dtb";
-
-        raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-        raspberry-pi."4".dwc2 = {
-          enable = true;
-          dr_mode = "host";
-        };
-      };
-
-      # `initrd` networking modules
-      boot.initrd.availableKernelModules = ["smsc95xx" "usbnet"];
-
-      environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
-    })
+    ./raspberry-pi-4.nix
 
     ../../mods/env.nix
     ../../mods/ssh.nix

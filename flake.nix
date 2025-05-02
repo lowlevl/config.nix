@@ -7,18 +7,15 @@
   outputs = {
     self,
     nixpkgs,
-    nixos-hardware,
-  } @ attrs: {
+    ...
+  } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     nixosConfigurations.nyx = nixpkgs.lib.nixosSystem {
-      specialArgs = attrs;
+      specialArgs = {inherit inputs;};
 
       system = "aarch64-linux";
-      modules = [
-        nixos-hardware.nixosModules.raspberry-pi-4
-        ./confs/nyx
-      ];
+      modules = [./confs/nyx];
     };
   };
 }
