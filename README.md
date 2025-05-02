@@ -5,8 +5,6 @@ Repository to store and increment on my IaC, using NixOS.
 ## Todos
 
 - Restore the dynamic fan PWM curve.
-- Install a reverse proxy optional authentication.
-- Install `xandikos` behind authentication.
 - Set up a `git-annex`.
 
 ## Nyx: RaspberryPi 4
