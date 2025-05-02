@@ -32,8 +32,6 @@ in {
     ../../mods/users.nix
     ../../mods/locale.nix
     ../../mods/decrypt.nix
-
-    ../../mods/xandikos.nix
   ];
 
   # - Nix configuration
@@ -84,10 +82,10 @@ in {
   services.xandikos = {
     enable = true;
     port = 11111;
-
-    caddy.enable = true;
-    caddy.hostName = "test.unw.re";
   };
+  services.caddy.virtualHosts."test.unw.re".extraConfig = ''
+    reverse_proxy ${config.services.xandikos.address}:${builtins.toString config.services.xandikos.port}
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
