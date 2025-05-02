@@ -4,15 +4,10 @@
   lib,
   ...
 }: let
-  sources = import ./sources.nix;
-
-  pull-switch = pkgs.callPackage ./pkgs/pull-switch.nix {};
+  pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
 in {
   imports = [
     ./hardware-configuration.nix
-
-    # - Hardware configuration
-    "${sources.nixos-hardware}/raspberry-pi/4"
 
     ({pkgs, ...}: {
       hardware = {
@@ -32,13 +27,13 @@ in {
       environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
     })
 
-    ./mod/env.nix
-    ./mod/ssh.nix
-    ./mod/users.nix
-    ./mod/locale.nix
-    ./mod/decrypt.nix
+    ../../mods/env.nix
+    ../../mods/ssh.nix
+    ../../mods/users.nix
+    ../../mods/locale.nix
+    ../../mods/decrypt.nix
 
-    ./mod/xandikos.nix
+    ../../mods/xandikos.nix
   ];
 
   # - Bootloader configuration
@@ -51,8 +46,8 @@ in {
   };
 
   # - Services and miscellaneous configuration
-  networking.hostName = "core";
-  networking.domain = "homelab.internal";
+  networking.hostName = "nyx";
+  networking.domain = "local";
 
   environment.systemPackages = [pull-switch];
 

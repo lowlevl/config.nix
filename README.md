@@ -9,15 +9,16 @@ Repository to store and increment on my IaC, using NixOS.
 - Install `xandikos` behind authentication.
 - Set up a `git-annex`.
 
-## The node: Raspberry Pi 4
+## Nyx: RaspberryPi 4
 
-- OS: NixOS latest
-- Case: DeskPi Pro
-- Drive: Kingston DC500M 960GB
+- **Hostname**: `nyx.local`
+- **OS**: NixOS latest
+- **Case**: DeskPi Pro
+- **Drive**: Kingston DC500M 960GB
 
-# Installation quirks
+### Installation quirks
 
-## U-booting into `systemd-boot`:
+#### U-booting into `systemd-boot`:
 
 To be able to use initrd secrets and a modern bootloader, we're setting up `systemd-boot`,
 however since the Pi firmware isn't EFI-capable, we have to use U-boot to jump into `systemd-boot`.
