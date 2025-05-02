@@ -21,7 +21,16 @@ in {
   ];
 
   # - Nix configuration
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix = {
+    settings.experimental-features = ["nix-command" "flakes"];
+
+    registry.nixpkgs.flake = inputs.nixpkgs;
+
+    nixPath = [
+      "nixpkgs=flake:nixpkgs"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
+  };
 
   # - Bootloader configuration
   boot.loader = {
@@ -37,7 +46,7 @@ in {
     defaultSopsFile = ./secrets.yaml;
 
     secrets."xandikos/accounts" = {
-       owner = config.services.caddy.user;
+      owner = config.services.caddy.user;
     };
   };
 
