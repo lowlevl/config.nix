@@ -11,6 +11,8 @@ Repository to store and increment on my IaC, using NixOS.
 
 ## Nyx: RaspberryPi 4
 
+_In Greek mythology, Nyx (/nɪks/; Ancient Greek: Νύξ, lit. 'Night') is the goddess and personification of the night._
+
 - **Hostname**: `nyx.local`
 - **OS**: NixOS latest
 - **Case**: DeskPi Pro
