@@ -36,7 +36,7 @@ in {
   sops = {
     defaultSopsFile = ./secrets.yaml;
 
-    secrets."xandikos/users" = {
+    secrets."xandikos/accounts" = {
        owner = config.services.caddy.user;
     };
   };
@@ -80,9 +80,9 @@ in {
 
     port = 11001;
   };
-  services.caddy.virtualHosts."test.unw.re".extraConfig = ''
+  services.caddy.virtualHosts."cal.unw.re".extraConfig = ''
     basic_auth * bcrypt "You shall not pass >:(" {
-      import "${config.sops.secrets."xandikos/users".path}"
+      import "${config.sops.secrets."xandikos/accounts".path}"
     }
 
     reverse_proxy ${config.services.xandikos.address}:${builtins.toString config.services.xandikos.port}
