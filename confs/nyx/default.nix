@@ -36,6 +36,9 @@ in {
     ../../mods/xandikos.nix
   ];
 
+  # - Nix configuration
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   # - Bootloader configuration
   boot.loader = {
     generic-extlinux-compatible.enable = false;

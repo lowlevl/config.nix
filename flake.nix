@@ -12,7 +12,7 @@
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     nixosConfigurations.nyx = nixpkgs.lib.nixosSystem {
-      specialArgs = attrs; 
+      specialArgs = attrs;
 
       system = "aarch64-linux";
       modules = [
