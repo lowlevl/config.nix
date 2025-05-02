@@ -32,15 +32,6 @@ in {
     ];
   };
 
-  # - Bootloader configuration
-  boot.loader = {
-    generic-extlinux-compatible.enable = false;
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 3;
-    };
-  };
-
   # - Secrets configuration
   sops = {
     defaultSopsFile = ./secrets.yaml;

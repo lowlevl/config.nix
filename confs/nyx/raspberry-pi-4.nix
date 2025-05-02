@@ -8,6 +8,7 @@
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
+  # - Hardware configuration
   hardware = {
     deviceTree.enable = true;
     deviceTree.name = "broadcom/bcm2711-rpi-4-b.dtb";
@@ -23,4 +24,13 @@
   boot.initrd.availableKernelModules = ["smsc95xx" "usbnet"];
 
   environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
+
+  # - Bootloader configuration
+  boot.loader = {
+    generic-extlinux-compatible.enable = false;
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 3;
+    };
+  };
 }
