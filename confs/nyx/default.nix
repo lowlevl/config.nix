@@ -76,7 +76,9 @@ in {
   ## - Services configuration
   services.xandikos = {
     enable = true;
-    port = 11111;
+    extraOptions = ["--autocreate"];
+
+    port = 11001;
   };
   services.caddy.virtualHosts."test.unw.re".extraConfig = ''
     basic_auth * bcrypt "You shall not pass >:(" {
