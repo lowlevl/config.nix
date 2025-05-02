@@ -18,6 +18,8 @@ in {
     ../../mods/users.nix
     ../../mods/locale.nix
     ../../mods/decrypt.nix
+
+    ../../mods/git-annex
   ];
 
   # - Nix configuration
@@ -47,7 +49,7 @@ in {
 
   environment.systemPackages = [pull-switch];
 
-  ## - Reverse proxy configuration
+  ## - `caddy`: Reverse proxy/HTTP 1,2,3 server
   services.caddy = {
     enable = true;
     email = "postmaster@unw.re";
@@ -73,20 +75,35 @@ in {
   };
   networking.firewall.allowedTCPPorts = [80 443];
 
-  ## - Services configuration
+  ## - `xandikos`: CalDAV/CardDAV server
   services.xandikos = {
     enable = true;
-    extraOptions = ["--autocreate"];
 
     port = 11001;
+    extraOptions = [
+      "--autocreate"
+    ];
   };
-  services.caddy.virtualHosts."cal.unw.re".extraConfig = ''
+
+  services.caddy.virtualHosts."cal.unw.re".extraConfig = let
+    endpoint = "${config.services.xandikos.address}:${builtins.toString config.services.xandikos.port}";
+  in ''
     basic_auth * bcrypt "You shall not pass >:(" {
       import "${config.sops.secrets."xandikos/accounts".path}"
     }
 
-    reverse_proxy ${config.services.xandikos.address}:${builtins.toString config.services.xandikos.port}
+    reverse_proxy ${endpoint}
   '';
+
+  ## - `git-annex`: Distributed file synchronization system
+  services.git-annex = {
+    enable = true;
+
+    annexes."library" = {
+      user = "librarian";
+      authorizedKeys = config.users.users.technician.openssh.authorizedKeys.keys;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
