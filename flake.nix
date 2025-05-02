@@ -4,6 +4,11 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+  inputs.sops-nix = {
+    url = "github:Mic92/sops-nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   outputs = {
     self,
     nixpkgs,
