@@ -1,6 +1,5 @@
-# shell: enable and configure shell and tools
+# shell: configure shell and tools
 {...}: {
-  programs.dircolors.enable = true;
   programs.bash = {
     enable = true;
 
@@ -20,4 +19,10 @@
       fi
     '';
   };
+
+  programs.dircolors.enable = true;
+  programs.direnv.enable = true;
+
+  programs.bat.enable = true;
+  programs.btop.enable = true;
 }
