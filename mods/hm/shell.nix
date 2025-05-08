@@ -1,4 +1,4 @@
-# shell: configure shell and tools
+# hm/shell: configure shell and tools
 {...}: {
   programs.bash = {
     enable = true;

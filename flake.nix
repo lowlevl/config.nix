@@ -24,7 +24,9 @@
       specialArgs = {inherit inputs;};
 
       system = "aarch64-linux";
-      modules = [./confs/nyx];
+      modules = [
+        ./confs/nyx
+      ];
     };
 
     homeConfigurations."bee" = home-manager.lib.homeManagerConfiguration {
@@ -33,6 +35,8 @@
       modules = [
         ./mods/hm/hm.nix
         ./mods/hm/shell.nix
+        ./mods/hm/i3
+
         ./homes/bee.nix
       ];
 

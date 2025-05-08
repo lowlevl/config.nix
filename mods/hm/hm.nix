@@ -1,4 +1,4 @@
-# - hm: common home-manager settings
+# - hm/hm: common home-manager settings
 {
   config,
   username,
