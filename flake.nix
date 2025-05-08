@@ -32,6 +32,7 @@
 
       modules = [
         ./mods/hm/hm.nix
+        ./mods/hm/shell.nix
         ./homes/bee.nix
       ];
 
