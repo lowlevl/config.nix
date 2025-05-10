@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, lib, ...}: let
+  pavucontrol = lib.getExe pkgs.pavucontrol;
+in {
   programs.i3status-rust = {
     enable = true;
     package = pkgs.unstable.i3status-rust;
@@ -40,7 +42,7 @@
           click = [
             {
               button = "left";
-              cmd = "pavucontrol";
+              cmd = pavucontrol;
             }
 
           ];
