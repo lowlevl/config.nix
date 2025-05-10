@@ -8,6 +8,9 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -35,6 +38,7 @@
       modules = [
         ./mods/hm/hm.nix
         ./mods/hm/shell.nix
+        ./mods/hm/neovim.nix
         ./mods/hm/i3
 
         ./homes/bee.nix
