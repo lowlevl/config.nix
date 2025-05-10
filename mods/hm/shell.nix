@@ -8,21 +8,37 @@
       grep = "grep --color=auto";
       egrep = "egrep --color=auto";
       pgrep = "pgrep --color=auto";
+
+      ll = "ls -l";
+      gs = "git status";
+      gl = "git log --graph --all --decorate";
     };
 
     historyControl = ["erasedups" "ignoreboth"];
     initExtra = ''
-      if [[ ''${EUID} == 0 ]] ; then
-        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-      else
-        PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
-      fi
+      # Load __git_ps1 bash command.
+      . ~/.nix-profile/share/git/contrib/completion/git-prompt.sh
+      # Also load git command completions for bash.
+      . ~/.nix-profile/share/git/contrib/completion/git-completion.bash
+
+      export PS1='\[\033[38;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]$(__git_ps1)\[\033[01;34m\] $\[\033[00m\] ';
+      export TERM=xterm-256color
     '';
   };
 
   programs.dircolors.enable = true;
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+
+    nix-direnv.enable = true;
+  };
 
   programs.bat.enable = true;
   programs.btop.enable = true;
+
+  programs.git = {
+    enable = true;
+
+    lfs.enable = true;
+  };
 }

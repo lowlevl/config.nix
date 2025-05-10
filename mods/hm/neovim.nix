@@ -1,5 +1,9 @@
 # hm/neovim: configure neovim, lsp and tools
-{inputs, pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
   ];
@@ -81,9 +85,10 @@
         lspBuf = {
           "K" = "hover";
           "F" = "format";
+          #"T" = "type_definition";
           "gd" = "definition";
           "gi" = "implementation";
-          "gt" = "type_definition";
+          "rn" = "rename";
         };
       };
     };

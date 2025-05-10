@@ -1,18 +1,36 @@
 {
   lib,
   pkgs,
+  config,
   ...
-}: {
-  xsession.windowManager.i3 = rec {
-    enable = true;
-    package = pkgs.i3-gaps;
+}: let
+  pulseaudio-ctl = lib.getExe pkgs.pulseaudio-ctl;
+  brightnessctl = lib.getExe pkgs.brightnessctl;
+  rofi = lib.getExe config.programs.rofi.finalPackage;
+  rofi-screenshot = lib.getExe pkgs.rofi-screenshot;
+  rofi-power-menu = lib.getExe pkgs.rofi-power-menu;
+  xkill = lib.getExe pkgs.xorg.xkill;
 
-    config = {
+  i3status-rs = lib.getExe config.programs.i3status-rust.package;
+
+  xss-lock = lib.getExe pkgs.xss-lock;
+  nitrogen = lib.getExe pkgs.nitrogen;
+  caffeine = lib.getExe pkgs.caffeine-ng;
+  nm-applet = lib.getExe pkgs.networkmanagerapplet;
+  blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
+  # TODO: use better lock than blurlock
+in {
+  home.packages = [pkgs.alsa-lib-with-plugins];
+
+  xsession.windowManager.i3 = {
+    enable = true;
+
+    config = rec {
       modifier = "Mod4";
       workspaceAutoBackAndForth = true;
 
       fonts = {
-        names = ["DejaVu Sans Mono" "Font Awesome 6 Free 11"];
+        names = ["DejaVu Sans Mono"];
         size = 11.0;
       };
 
@@ -24,35 +42,27 @@
         outer = -2;
       };
 
-      keybindings = let
-        amixer = lib.getExe' pkgs.alsa-utils "amixer";
-        brightnessctl = lib.getExe pkgs.brightnessctl;
-        rofi = lib.getExe pkgs.brightnessctl;
-        rofi-screenshot = lib.getExe pkgs.rofi-screenshot;
-        rofi-power-menu = lib.getExe pkgs.rofi-power-menu;
-        xkill = lib.getExe pkgs.xorg.xkill;
-      in
-        lib.mkOptionDefault {
-          "Print" = "exec ${rofi-screenshot}";
+      keybindings = lib.mkOptionDefault {
+        "Print" = "exec ${rofi-screenshot}";
 
-          "XF86AudioMute" = "exec --no-startup-id ${amixer} set Master toggle";
-          "XF86AudioLowerVolume" = "exec --no-startup-id ${amixer} set Master 4%-";
-          "XF86AudioRaiseVolume" = "exec --no-startup-id ${amixer} set Master 4%+";
-          "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
-          "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
+        "XF86AudioRaiseVolume" = "exec --no-startup-id ${pulseaudio-ctl} up";
+        "XF86AudioLowerVolume" = "exec --no-startup-id ${pulseaudio-ctl} down";
+        "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";
+        "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
+        "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
 
-          "${config.modifier}+d" = "exec ${rofi} -show drun";
-          "${config.modifier}+Tab" = "exec ${rofi} -show window";
-          "${config.modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
+        "${modifier}+d" = "exec ${rofi} -show drun";
+        "${modifier}+Tab" = "exec ${rofi} -show window";
+        "${modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
 
-          "${config.modifier}+9" = "exec --no-startup-id blurlock";
-          "${config.modifier}+10" = "exec ${rofi-power-menu}";
-          "${config.modifier}+Shift+9" = "nop";
-          "${config.modifier}+Shift+10" = "nop";
+        "${modifier}+9" = "exec --no-startup-id blurlock";
+        "${modifier}+0" = "exec ${rofi} -show p -modi p:'${rofi-power-menu}'";
+        "${modifier}+Shift+9" = "nop";
+        "${modifier}+Shift+10" = "nop";
 
-          "${config.modifier}+Ctrl+Right" = "workspace next";
-          "${config.modifier}+Ctrl+Left" = "workspace prev";
-        };
+        "${modifier}+Ctrl+Right" = "workspace next";
+        "${modifier}+Ctrl+Left" = "workspace prev";
+      };
 
       assigns = {
         "8" = [
@@ -74,8 +84,8 @@
       };
 
       floating = {
-        border = config.window.border;
-        titlebar = config.window.titlebar;
+        border = window.border;
+        titlebar = window.titlebar;
 
         criteria = [
           {title = "alsamixer";}
@@ -84,7 +94,46 @@
         ];
       };
 
+      bars = [
+        {
+          position = "bottom";
+          fonts = fonts;
+
+          statusCommand = ''
+            ${i3status-rs} "$HOME/${config.xdg.configFile."i3status-rust/config-bottom.toml".target}"
+          '';
+          extraConfig = ''
+            strip_workspace_numbers yes
+            height 24
+          '';
+
+          colors = {
+            # background = "#2b2c2b";
+          };
+        }
+      ];
+
       startup = [
+        {
+          command = "${xss-lock} --transfer-sleep-lock -- blurlock";
+          notification = false;
+        }
+        {
+          command = "${nitrogen} --restore";
+          notification = false;
+        }
+        {
+          command = nm-applet;
+          notification = false;
+        }
+        {
+          command = blueman-applet;
+          notification = false;
+        }
+        {
+          command = caffeine;
+          notification = false;
+        }
       ];
     };
   };
