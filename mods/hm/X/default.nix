@@ -5,10 +5,14 @@
     ./bar.nix
     ./lock.nix
     ./rofi.nix
+
     ./dunst.nix
     ./picom.nix
-    ./caffeine.nix
     ./autorandr.nix
+
+    ./caffeine.nix
+    ./nm-applet.nix
+    ./blueman-applet.nix
   ];
 
   xsession.enable = true;

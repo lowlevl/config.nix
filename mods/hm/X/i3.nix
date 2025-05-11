@@ -13,10 +13,7 @@
   xset = lib.getExe pkgs.xorg.xset;
 
   i3status-rs = lib.getExe config.programs.i3status-rust.package;
-
   nitrogen = lib.getExe pkgs.nitrogen;
-  nm-applet = lib.getExe pkgs.networkmanagerapplet;
-  blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
 in {
   xsession.windowManager.i3 = {
     enable = true;
@@ -112,14 +109,6 @@ in {
       startup = [
         {
           command = "${nitrogen} --restore";
-          notification = false;
-        }
-        {
-          command = nm-applet;
-          notification = false;
-        }
-        {
-          command = blueman-applet;
           notification = false;
         }
       ];
