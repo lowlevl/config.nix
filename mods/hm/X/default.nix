@@ -9,11 +9,13 @@
     ./dunst.nix
     ./picom.nix
     ./autorandr.nix
-
-    ./caffeine.nix
-    ./nm-applet.nix
-    ./blueman-applet.nix
   ];
 
   xsession.enable = true;
+
+  services = {
+    caffeine.enable = true;
+    blueman-applet.enable = true;
+    network-manager-applet.enable = true;
+  };
 }
