@@ -1,4 +1,4 @@
-# hm/i3: settings for i3/sway and extensions
+# hm/X: settings for X.org, i3/sway and extensions
 {...}: {
   imports = [
     ./i3.nix

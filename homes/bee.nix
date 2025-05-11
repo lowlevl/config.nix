@@ -4,7 +4,7 @@
     ../mods/hm/pam.nix
     ../mods/hm/shell.nix
     ../mods/hm/neovim.nix
-    ../mods/hm/i3
+    ../mods/hm/X
   ];
 
   # Authentication quirks with PAM
