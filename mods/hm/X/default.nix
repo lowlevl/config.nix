@@ -10,4 +10,6 @@
     ./caffeine.nix
     ./autorandr.nix
   ];
+
+  xsession.enable = true;
 }

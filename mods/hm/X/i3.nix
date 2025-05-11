@@ -18,7 +18,6 @@
   nm-applet = lib.getExe pkgs.networkmanagerapplet;
   blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
 in {
-  xsession.enable = true;
   xsession.windowManager.i3 = {
     enable = true;
 
