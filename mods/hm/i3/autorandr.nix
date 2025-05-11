@@ -2,12 +2,12 @@
   pkgs,
   lib,
   ...
-}: {
-  nixpkgs.overlays = [
-    (final: prev: {
-      autorandr = pkgs.writeShellScriptBin "autorandr" "exec ${lib.getExe prev.autorandr} --match-edid \"$@\"";
-    })
-  ];
+}: let
+  overlay = self: super: {
+    autorandr = pkgs.writeShellScriptBin "autorandr" "exec ${lib.getExe super.autorandr} --match-edid \"$@\"";
+  };
+in {
+  nixpkgs.overlays = [overlay];
 
   services.autorandr = {
     enable = true;
