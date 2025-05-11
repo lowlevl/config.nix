@@ -3,6 +3,7 @@
   imports = [
     ./i3.nix
     ./bar.nix
+    ./lock.nix
     ./rofi.nix
     ./dunst.nix
     ./picom.nix

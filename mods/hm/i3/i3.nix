@@ -10,18 +10,16 @@
   rofi-screenshot = lib.getExe pkgs.rofi-screenshot;
   rofi-power-menu = lib.getExe pkgs.rofi-power-menu;
   xkill = lib.getExe pkgs.xorg.xkill;
+  xset = lib.getExe pkgs.xorg.xset;
 
   i3status-rs = lib.getExe config.programs.i3status-rust.package;
 
-  xss-lock = lib.getExe pkgs.xss-lock;
   nitrogen = lib.getExe pkgs.nitrogen;
   caffeine = lib.getExe pkgs.caffeine-ng;
   nm-applet = lib.getExe pkgs.networkmanagerapplet;
   blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
-  # TODO: use better lock than blurlock
 in {
-  home.packages = [pkgs.alsa-lib-with-plugins];
-
+  xsession.enable = true;
   xsession.windowManager.i3 = {
     enable = true;
 
@@ -45,9 +43,9 @@ in {
       keybindings = lib.mkOptionDefault {
         "Print" = "exec ${rofi-screenshot}";
 
+        "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";
         "XF86AudioRaiseVolume" = "exec --no-startup-id ${pulseaudio-ctl} up";
         "XF86AudioLowerVolume" = "exec --no-startup-id ${pulseaudio-ctl} down";
-        "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";
         "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
         "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
 
@@ -55,7 +53,7 @@ in {
         "${modifier}+Tab" = "exec ${rofi} -show window";
         "${modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
 
-        "${modifier}+9" = "exec --no-startup-id blurlock";
+        "${modifier}+9" = "exec --no-startup-id ${xset} s activate";
         "${modifier}+0" = "exec ${rofi} -show p -modi p:'${rofi-power-menu}'";
         "${modifier}+Shift+9" = "nop";
         "${modifier}+Shift+10" = "nop";
@@ -108,16 +106,12 @@ in {
           '';
 
           colors = {
-            # background = "#2b2c2b";
+            background = "#1c1b19";
           };
         }
       ];
 
       startup = [
-        {
-          command = "${xss-lock} --transfer-sleep-lock -- blurlock";
-          notification = false;
-        }
         {
           command = "${nitrogen} --restore";
           notification = false;

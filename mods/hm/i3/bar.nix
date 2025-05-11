@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   pavucontrol = lib.getExe pkgs.pavucontrol;
 in {
   programs.i3status-rust = {
@@ -44,7 +48,6 @@ in {
               button = "left";
               cmd = pavucontrol;
             }
-
           ];
         }
         {
