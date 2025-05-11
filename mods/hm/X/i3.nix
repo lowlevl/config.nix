@@ -15,7 +15,6 @@
   i3status-rs = lib.getExe config.programs.i3status-rust.package;
 
   nitrogen = lib.getExe pkgs.nitrogen;
-  caffeine = lib.getExe pkgs.caffeine-ng;
   nm-applet = lib.getExe pkgs.networkmanagerapplet;
   blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
 in {
@@ -122,10 +121,6 @@ in {
         }
         {
           command = blueman-applet;
-          notification = false;
-        }
-        {
-          command = caffeine;
           notification = false;
         }
       ];

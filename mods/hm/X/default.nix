@@ -7,6 +7,7 @@
     ./rofi.nix
     ./dunst.nix
     ./picom.nix
+    ./caffeine.nix
     ./autorandr.nix
   ];
 }
