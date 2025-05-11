@@ -1,13 +1,26 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.git-annex];
+  imports = [
+    ../mods/hm/hm.nix
+    ../mods/hm/pam.nix
+    ../mods/hm/shell.nix
+    ../mods/hm/neovim.nix
+    ../mods/hm/i3
+  ];
 
+  # Authentication quirks with PAM
+  home.pam = {
+    chkpwdPath = "/usr/bin/unix_chkpwd";
+    overridePackages = ["i3lock-color"];
+  };
+
+  # Enable `git-annex assistant` on startup and append it the i3status config
+  home.packages = [pkgs.git-annex];
   xsession.windowManager.i3.config.startup = [
     {
       command = "git annex assistant --autostart --notify-start --notify-finish";
       notification = false;
     }
   ];
-
   programs.i3status-rust.bars.bottom.blocks = [
     {
       block = "custom";

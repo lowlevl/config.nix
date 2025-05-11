@@ -4,21 +4,16 @@
   ...
 }: {
   services.betterlockscreen = {
-    enable = false;
+    enable = true;
     arguments = [
       "blur"
-      "--off 10"
+      "--off 30"
       "--show-layout"
+      # "--"
+      # "--ignore-empty-password"
+      # "--pass-volume-keys"
     ];
 
     inactiveInterval = 15;
-  };
-
-  services.screen-locker = {
-    enable = true;
-    inactiveInterval = 15;
-
-    # TODO: Change this to betterlockscreen (fix PAM) issues
-    lockCmd = "blurlock";
   };
 }

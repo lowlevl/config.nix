@@ -45,12 +45,6 @@
       };
 
       modules = [
-        ./mods/hm/hm.nix
-        ./mods/hm/pam.nix
-        ./mods/hm/shell.nix
-        ./mods/hm/neovim.nix
-        ./mods/hm/i3
-
         ./homes/bee.nix
       ];
 
