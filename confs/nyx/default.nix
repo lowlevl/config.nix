@@ -2,24 +2,22 @@
   inputs,
   config,
   pkgs,
-  lib,
   ...
 }: let
   pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
 in {
-  imports = [
+  imports = with inputs.self.nixosModules; [
     inputs.sops-nix.nixosModules.sops
 
     ./hardware-configuration.nix
     ./raspberry-pi-4.nix
 
-    ../../mods/env.nix
-    ../../mods/ssh.nix
-    ../../mods/users.nix
-    ../../mods/locale.nix
-    ../../mods/decrypt.nix
-
-    ../../mods/git-annex
+    env
+    ssh
+    users
+    locale
+    decrypt
+    git-annex
   ];
 
   # - Nix configuration

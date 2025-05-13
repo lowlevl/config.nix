@@ -1,10 +1,14 @@
-{pkgs, ...}: {
-  imports = [
-    ../mods/hm/hm.nix
-    ../mods/hm/pam.nix
-    ../mods/hm/shell.nix
-    ../mods/hm/neovim.nix
-    ../mods/hm/X
+{
+  inputs,
+  pkgs,
+  ...
+}: {
+  imports = with inputs.self.homeModules; [
+    hm
+    pam
+    shell
+    neovim
+    X
   ];
 
   # Authentication quirks with PAM

@@ -29,6 +29,15 @@
       unstable = import inputs.nixpkgs-unstable {system = final.system;};
     };
 
+    nixosModules = {
+      env = ./mods/env.nix;
+      ssh = ./mods/ssh.nix;
+      users = ./mods/users.nix;
+      locale = ./mods/locale.nix;
+      decrypt = ./mods/decrypt.nix;
+      git-annex = ./mods/git-annex;
+    };
+
     nixosConfigurations."nyx" = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
 
@@ -36,6 +45,14 @@
       modules = [
         ./confs/nyx
       ];
+    };
+
+    homeModules = {
+      X = ./mods/hm/X;
+      hm = ./mods/hm/hm.nix;
+      pam = ./mods/hm/pam.nix;
+      shell = ./mods/hm/shell.nix;
+      neovim = ./mods/hm/neovim.nix;
     };
 
     homeConfigurations."bee" = home-manager.lib.homeManagerConfiguration {
