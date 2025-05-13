@@ -44,6 +44,8 @@ in {
         "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
         "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
 
+        "${modifier}+p" = "exec --no-startup-id systemctl --user restart autorandr.service";
+
         "${modifier}+d" = "exec ${rofi} -show drun";
         "${modifier}+Tab" = "exec ${rofi} -show window";
         "${modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
