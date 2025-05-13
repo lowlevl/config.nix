@@ -1,19 +1,21 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   services.betterlockscreen = {
     enable = true;
     arguments = [
       "blur"
       "--off 30"
       "--show-layout"
-      # "--"
-      # "--ignore-empty-password"
-      # "--pass-volume-keys"
+      "--"
+      "--"
+      "--nofork"
+      "--pass-volume-keys"
+      "--ignore-empty-password"
     ];
 
     inactiveInterval = 15;
+  };
+
+  services.screen-locker = {
+    xss-lock.extraOptions = ["--transfer-sleep-lock"];
   };
 }
