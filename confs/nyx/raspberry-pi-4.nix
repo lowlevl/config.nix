@@ -1,11 +1,11 @@
 # - raspberry-pi-4: configuration & tweaks for the hardware
 {
-  inputs,
+  nixos-hardware,
   pkgs,
   ...
 }: {
   imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
   # - Hardware configuration

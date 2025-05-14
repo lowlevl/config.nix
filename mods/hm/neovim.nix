@@ -1,11 +1,7 @@
 # hm/neovim: configure neovim, lsp and tools
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{nixvim, ...}: {pkgs, ...}: {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    nixvim.homeManagerModules.nixvim
   ];
 
   programs.nixvim = {

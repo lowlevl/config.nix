@@ -1,13 +1,15 @@
 {
-  inputs,
+  self,
+  nixpkgs,
+  sops-nix,
   config,
   pkgs,
   ...
 }: let
   pull-switch = pkgs.callPackage ../../pkgs/pull-switch.nix {};
 in {
-  imports = with inputs.self.nixosModules; [
-    inputs.sops-nix.nixosModules.sops
+  imports = with self.nixosModules; [
+    sops-nix.nixosModules.sops
 
     ./hardware-configuration.nix
     ./raspberry-pi-4.nix
@@ -24,7 +26,7 @@ in {
   nix = {
     settings.experimental-features = ["nix-command" "flakes"];
 
-    registry.nixpkgs.flake = inputs.nixpkgs;
+    registry.nixpkgs.flake = nixpkgs;
 
     nixPath = [
       "nixpkgs=flake:nixpkgs"

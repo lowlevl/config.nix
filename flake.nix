@@ -39,12 +39,12 @@
     };
 
     nixosConfigurations."nyx" = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit (inputs) self nixpkgs sops-nix nixos-hardware;
+      };
 
       system = "aarch64-linux";
-      modules = [
-        ./confs/nyx
-      ];
+      modules = [./confs/nyx];
     };
 
     homeModules = {
@@ -52,23 +52,21 @@
       hm = ./mods/hm/hm.nix;
       pam = ./mods/hm/pam.nix;
       shell = ./mods/hm/shell.nix;
-      neovim = ./mods/hm/neovim.nix;
+      neovim = import ./mods/hm/neovim.nix {inherit (inputs) nixvim;};
     };
 
     homeConfigurations."bee" = home-manager.lib.homeManagerConfiguration {
+      extraSpecialArgs = {
+        inherit (inputs) self;
+
+        username = "bee";
+      };
       pkgs = import nixpkgs {
         overlays = [self.overlays."unstable-packages"];
         system = "x86_64-linux";
       };
 
-      modules = [
-        ./homes/bee.nix
-      ];
-
-      extraSpecialArgs = {
-        inherit inputs;
-        username = "bee";
-      };
+      modules = [./homes/bee.nix];
     };
   };
 }

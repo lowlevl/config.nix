@@ -1,9 +1,9 @@
 {
-  inputs,
+  self,
   pkgs,
   ...
 }: {
-  imports = with inputs.self.homeModules; [
+  imports = with self.homeModules; [
     hm
     pam
     shell
