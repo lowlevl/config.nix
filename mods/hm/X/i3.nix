@@ -35,32 +35,54 @@ in {
         outer = -2;
       };
 
-      keybindings = lib.mkOptionDefault {
-        "Print" = "exec ${rofi-screenshot}";
+      keybindings = let
+        workspaces = {
+          "1" = 1;
+          "2" = 2;
+          "3" = 3;
+          "4" = 4;
+          "5" = 5;
+          "6" = 6;
+          "7" = 7;
+          "8:📮" = 8;
+        };
 
-        "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";
-        "XF86AudioRaiseVolume" = "exec --no-startup-id ${pulseaudio-ctl} up";
-        "XF86AudioLowerVolume" = "exec --no-startup-id ${pulseaudio-ctl} down";
-        "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
-        "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
+        binds =
+          {
+            "Print" = "exec ${rofi-screenshot}";
 
-        "${modifier}+p" = "exec --no-startup-id systemctl --user restart autorandr.service";
+            "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";
+            "XF86AudioRaiseVolume" = "exec --no-startup-id ${pulseaudio-ctl} up";
+            "XF86AudioLowerVolume" = "exec --no-startup-id ${pulseaudio-ctl} down";
+            "XF86MonBrightnessUp" = "exec --no-startup-id ${brightnessctl} set 4%+";
+            "XF86MonBrightnessDown" = "exec --no-startup-id ${brightnessctl} set 4%-";
 
-        "${modifier}+d" = "exec ${rofi} -show drun";
-        "${modifier}+Tab" = "exec ${rofi} -show window";
-        "${modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
+            "${modifier}+p" = "exec --no-startup-id systemctl --user restart autorandr.service";
 
-        "${modifier}+9" = "exec --no-startup-id ${xset} s activate";
-        "${modifier}+0" = "exec ${rofi} -show p -modi p:'${rofi-power-menu}'";
-        "${modifier}+Shift+9" = "nop";
-        "${modifier}+Shift+10" = "nop";
+            "${modifier}+d" = "exec ${rofi} -show drun";
+            "${modifier}+Tab" = "exec ${rofi} -show window";
+            "${modifier}+Ctrl+x" = "exec --no-startup-id ${xkill}";
 
-        "${modifier}+Ctrl+Right" = "workspace next";
-        "${modifier}+Ctrl+Left" = "workspace prev";
-      };
+            "${modifier}+9" = "exec --no-startup-id ${xset} s activate";
+            "${modifier}+0" = "exec ${rofi} -show p -modi p:'${rofi-power-menu}'";
+
+            "${modifier}+Ctrl+Left" = "workspace prev";
+            "${modifier}+Ctrl+Right" = "workspace next";
+
+            "${modifier}+Shift+9" = "nop";
+            "${modifier}+Shift+10" = "nop";
+          }
+          // lib.concatMapAttrs (k: v: {
+            "${modifier}+${toString v}" = "workspace ${k}";
+            "${modifier}+Ctrl+${toString v}" = "move container to workspace ${k}";
+            "${modifier}+Shift+${toString v}" = "move container to workspace ${k}; workspace ${k}";
+          })
+          workspaces;
+      in
+        lib.mkOptionDefault binds;
 
       assigns = {
-        "8" = [
+        "8:📮" = [
           {class = "Telegram";}
           {class = "Signal";}
         ];
