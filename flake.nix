@@ -61,10 +61,7 @@
 
         username = "bee";
       };
-      pkgs = import nixpkgs {
-        overlays = [self.overlays."unstable-packages"];
-        system = "x86_64-linux";
-      };
+      pkgs = import nixpkgs {system = "x86_64-linux";};
 
       modules = [./homes/bee.nix];
     };

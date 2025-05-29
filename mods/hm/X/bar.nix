@@ -7,7 +7,6 @@
 in {
   programs.i3status-rust = {
     enable = true;
-    package = pkgs.unstable.i3status-rust;
 
     bars.bottom = {
       settings = {
