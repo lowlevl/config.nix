@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-old.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -27,6 +28,10 @@
 
     overlays."unstable-packages" = final: prev: {
       unstable = import inputs.nixpkgs-unstable {system = final.system;};
+    };
+
+    overlays."old-packages" = final: prev: {
+      old = import inputs.nixpkgs-old {system = final.system;};
     };
 
     nixosModules = {

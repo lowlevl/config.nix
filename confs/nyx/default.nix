@@ -33,6 +33,7 @@ in {
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
   };
+  nixpkgs.overlays = [self.overlays."old-packages"];
 
   # - Secrets configuration
   sops = {
@@ -52,6 +53,8 @@ in {
   ## - `caddy`: Reverse proxy/HTTP 1,2,3 server
   services.caddy = {
     enable = true;
+    package = pkgs.old.caddy;
+
     email = "postmaster@unw.re";
 
     virtualHosts.":80, :443" = {
