@@ -52,7 +52,7 @@
       };
     };
 
-    plugins.crates-nvim.enable = true;
+    plugins.crates.enable = true;
     # plugins.rustaceanvim.enable = true;
 
     plugins.lsp-signature.enable = true;
