@@ -22,8 +22,6 @@ in {
     vimAlias = true;
     vimdiffAlias = true;
 
-    clipboard.register = "unnamedplus";
-
     opts = {
       background = "dark";
 
@@ -39,6 +37,13 @@ in {
       list = true;
       listchars = "trail:◦,tab:↠ ";
     };
+
+    colorschemes.nightfox = {
+      enable = true;
+      flavor = "terafox";
+    };
+
+    clipboard.register = "unnamedplus";
 
     plugins.comment.enable = true;
     plugins.todo-comments.enable = true;
@@ -156,9 +161,7 @@ in {
 
     #- Misc
 
-    colorscheme = "terafox";
-    extraPlugins = [pkgs.vimPlugins.nightfox-nvim modes-nvim];
-
+    extraPlugins = [modes-nvim];
     extraConfigLua = ''
       require('modes').setup()
     '';
