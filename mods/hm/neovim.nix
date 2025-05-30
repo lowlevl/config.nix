@@ -80,9 +80,8 @@ in {
 
     diagnostic.settings = {
       severity_sort = true;
-      virtual_text = {
-        spacing = 3;
-        prefix = "◌";
+      virtual_lines = {
+        only_current_line = true;
       };
     };
 
