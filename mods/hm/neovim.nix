@@ -1,18 +1,10 @@
 # hm/neovim: configure neovim, lsp and tools
-{nixvim, ...}: {pkgs, ...}: let
-  modes-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "modes-nvim";
-    src = pkgs.fetchFromGitHub {
-      owner = "mvllow";
-      repo = "modes.nvim";
-      rev = "v0.3.0";
-      sha256 = "2gvne46/aHzVxcxXXBsdg6wVtlnhowYCKfAn4Wero+8=";
-    };
-  };
-in {
-  imports = [
-    nixvim.homeManagerModules.nixvim
-  ];
+{nixvim, ...}: {
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [nixvim.homeManagerModules.nixvim];
 
   programs.nixvim = {
     enable = true;
@@ -85,8 +77,17 @@ in {
 
     diagnostic.settings = {
       severity_sort = true;
-      virtual_lines = {
-        only_current_line = true;
+      virtual_lines = true;
+
+      signs = {
+        text = config.lib.nixvim.mkRaw ''
+          {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "󰟃"
+          }
+        '';
       };
     };
 
@@ -141,10 +142,16 @@ in {
       };
 
       keymaps = {
-        diagnostic = {
-          "<leader>k" = "goto_prev";
-          "<leader>j" = "goto_next";
-        };
+        extra = [
+          {
+            key = "[d";
+            action = config.lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=-1, float=false }) end";
+          }
+          {
+            key = "]d";
+            action = config.lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=1, float=false }) end";
+          }
+        ];
 
         lspBuf = {
           "K" = "hover";
@@ -159,9 +166,19 @@ in {
       };
     };
 
-    #- Misc
+    #- Extra plugins configuration
 
-    extraPlugins = [modes-nvim];
+    extraPlugins = let
+      modes-nvim = pkgs.vimUtils.buildVimPlugin {
+        name = "modes-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "mvllow";
+          repo = "modes.nvim";
+          rev = "v0.3.0";
+          sha256 = "2gvne46/aHzVxcxXXBsdg6wVtlnhowYCKfAn4Wero+8=";
+        };
+      };
+    in [modes-nvim];
     extraConfigLua = ''
       require('modes').setup()
     '';
