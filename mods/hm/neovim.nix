@@ -1,5 +1,15 @@
 # hm/neovim: configure neovim, lsp and tools
-{nixvim, ...}: {pkgs, ...}: {
+{nixvim, ...}: {pkgs, ...}: let
+  modes-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "modes-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "mvllow";
+      repo = "modes.nvim";
+      rev = "v0.3.0";
+      sha256 = "2gvne46/aHzVxcxXXBsdg6wVtlnhowYCKfAn4Wero+8=";
+    };
+  };
+in {
   imports = [
     nixvim.homeManagerModules.nixvim
   ];
@@ -15,6 +25,8 @@
     clipboard.register = "unnamedplus";
 
     opts = {
+      background = "dark";
+
       number = true;
       relativenumber = true;
 
@@ -25,12 +37,48 @@
       shiftwidth = 2;
 
       list = true;
-      listchars = "trail:◦";
+      listchars = "trail:◦,tab:↠ ";
     };
 
     plugins.comment.enable = true;
     plugins.todo-comments.enable = true;
 
+    plugins.lualine = {
+      enable = true;
+    };
+
+    plugins.web-devicons.enable = true;
+    plugins.telescope = {
+      enable = true;
+
+      keymaps = {
+        "<leader>fg" = "live_grep";
+        "<C-p>" = "git_files";
+      };
+    };
+
+    plugins.blink-cmp = {
+      enable = true;
+
+      settings = {
+        keymap.preset = "enter";
+
+        completion = {
+          accept.auto_brackets.enabled = true;
+
+          documentation.auto_show = true;
+
+          list.selection.auto_insert = false;
+          ghost_text.enabled = true;
+        };
+
+        signature.enabled = true;
+      };
+    };
+
+    #- Language servers and highlighting
+
+    plugins.crates.enable = true;
     plugins.treesitter = {
       enable = true;
 
@@ -39,30 +87,33 @@
         cpp
         rust
         nix
+        json
         yaml
         toml
-        javascript
       ];
 
       settings = {
-        incremental_selection.enable = true;
-        highlight.enable = true;
-        highlight.additional_vim_regex_highlighting = false;
+        highlight = {
+          enable = true;
+          additional_vim_regex_highlighting = false;
+        };
         indent.enable = true;
+        incremental_selection.enable = true;
       };
     };
 
-    plugins.crates.enable = true;
-    # plugins.rustaceanvim.enable = true;
-
     plugins.lsp-signature.enable = true;
     plugins.lsp-status.enable = true;
+    plugins.lsp-format.enable = true;
     plugins.lsp-lines.enable = true;
     plugins.lsp = {
       enable = true;
 
+      inlayHints = true;
+
       servers = {
         yamlls.enable = true;
+        tilt_ls.enable = true;
 
         nil_ls = {
           enable = true;
@@ -78,10 +129,17 @@
       };
 
       keymaps = {
+        diagnostic = {
+          "<leader>k" = "goto_prev";
+          "<leader>j" = "goto_next";
+        };
+
         lspBuf = {
           "K" = "hover";
           "F" = "format";
-          #"T" = "type_definition";
+          "T" = "type_definition";
+          "gD" = "references";
+          "ca" = "code_action";
           "gd" = "definition";
           "gi" = "implementation";
           "rn" = "rename";
@@ -89,7 +147,13 @@
       };
     };
 
-    extraPlugins = [pkgs.vimPlugins.gruvbox];
-    colorscheme = "gruvbox";
+    #- Misc
+
+    colorscheme = "terafox";
+    extraPlugins = [pkgs.vimPlugins.nightfox-nvim modes-nvim];
+
+    extraConfigLua = ''
+      require('modes').setup()
+    '';
   };
 }
