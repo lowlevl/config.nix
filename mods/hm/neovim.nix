@@ -78,6 +78,14 @@ in {
 
     #- Language servers and highlighting
 
+    diagnostic.settings = {
+      severity_sort = true;
+      virtual_text = {
+        spacing = 3;
+        prefix = "◌";
+      };
+    };
+
     plugins.crates.enable = true;
     plugins.treesitter = {
       enable = true;
