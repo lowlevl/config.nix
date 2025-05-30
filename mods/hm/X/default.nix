@@ -9,6 +9,8 @@
     ./dunst.nix
     ./picom.nix
     ./autorandr.nix
+
+    ./kitty.nix
   ];
 
   xsession.enable = true;

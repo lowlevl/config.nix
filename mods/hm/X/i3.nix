@@ -14,6 +14,8 @@
 
   i3status-rs = lib.getExe config.programs.i3status-rust.package;
   nitrogen = lib.getExe pkgs.nitrogen;
+
+  kitty = lib.getExe config.programs.kitty.package;
 in {
   xsession.windowManager.i3 = {
     enable = true;
@@ -49,6 +51,8 @@ in {
 
         binds =
           {
+            "${modifier}+Return" = "exec ${kitty}";
+
             "Print" = "exec ${rofi-screenshot}";
 
             "XF86AudioMute" = "exec --no-startup-id ${pulseaudio-ctl} mute";

@@ -14,6 +14,9 @@
     nixvim.url = "github:nix-community/nixvim/nixos-25.05";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixgl.url = "github:nix-community/nixGL";
+    nixgl.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -58,6 +61,7 @@
       pam = ./mods/hm/pam.nix;
       shell = ./mods/hm/shell.nix;
       neovim = import ./mods/hm/neovim.nix {inherit (inputs) nixvim;};
+      nixgl = import ./mods/hm/nixgl.nix {inherit (inputs) nixgl;};
     };
 
     homeConfigurations."bee" = home-manager.lib.homeManagerConfiguration {

@@ -8,6 +8,7 @@
     pam
     shell
     neovim
+    nixgl
     X
   ];
 
