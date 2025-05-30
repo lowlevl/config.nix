@@ -1,5 +1,7 @@
 # hm/shell: configure shell and tools
 {...}: {
+  home.shell.enableBashIntegration = true;
+
   programs.bash = {
     enable = true;
 
