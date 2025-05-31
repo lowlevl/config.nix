@@ -135,7 +135,7 @@
 
         nil_ls = {
           enable = true;
-          settings.formatting.command = ["${lib.getExe pkgs.nix}" "fmt"];
+          settings.formatting.command = ["${lib.getExe pkgs.alejandra}"];
         };
 
         yamlls = {
