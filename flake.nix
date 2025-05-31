@@ -19,22 +19,22 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    flake-utils,
     ...
   } @ inputs: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter = flake-utils.lib.eachDefaultSystemPassThrough (system: {${system} = nixpkgs.legacyPackages.${system}.alejandra;});
 
-    overlays."unstable-packages" = final: prev: {
-      unstable = import inputs.nixpkgs-unstable {system = final.system;};
-    };
-
-    overlays."old-packages" = final: prev: {
-      old = import inputs.nixpkgs-old {system = final.system;};
+    overlays = {
+      "old-packages" = final: prev: {old = import inputs.nixpkgs-old {system = final.system;};};
+      "unstable-packages" = final: prev: {unstable = import inputs.nixpkgs-unstable {system = final.system;};};
     };
 
     nixosModules = {
@@ -46,15 +46,6 @@
       git-annex = ./mods/git-annex;
     };
 
-    nixosConfigurations."nyx" = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit (inputs) self nixpkgs sops-nix nixos-hardware;
-      };
-
-      system = "aarch64-linux";
-      modules = [./confs/nyx];
-    };
-
     homeModules = {
       X = ./mods/hm/X;
       hm = ./mods/hm/hm.nix;
@@ -64,14 +55,22 @@
       nixgl = import ./mods/hm/nixgl.nix {inherit (inputs) nixgl;};
     };
 
+    nixosConfigurations."nyx" = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit (inputs) self nixpkgs sops-nix nixos-hardware;
+      };
+
+      system = "aarch64-linux";
+      modules = [./confs/nyx];
+    };
+
     homeConfigurations."bee" = home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {
         inherit (inputs) self;
-
         username = "bee";
       };
-      pkgs = import nixpkgs {system = "x86_64-linux";};
 
+      pkgs = import nixpkgs {system = "x86_64-linux";};
       modules = [./homes/bee.nix];
     };
   };
