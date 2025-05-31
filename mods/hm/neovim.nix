@@ -2,6 +2,7 @@
 {nixvim, ...}: {
   config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [nixvim.homeManagerModules.nixvim];
@@ -121,7 +122,6 @@
     plugins.lsp-lines.enable = true;
     plugins.lsp = {
       enable = true;
-
       inlayHints = true;
 
       servers = {
@@ -130,7 +130,7 @@
 
         nil_ls = {
           enable = true;
-          settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+          settings.formatting.command = ["${lib.getExe pkgs.nix}" "fmt"];
         };
 
         rust_analyzer = {
