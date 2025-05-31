@@ -125,19 +125,29 @@
       inlayHints = true;
 
       servers = {
-        yamlls.enable = true;
-        tilt_ls.enable = true;
+        rust_analyzer = {
+          enable = true;
+
+          installCargo = false;
+          installRustc = false;
+          installRustfmt = false;
+        };
 
         nil_ls = {
           enable = true;
           settings.formatting.command = ["${lib.getExe pkgs.nix}" "fmt"];
         };
 
-        rust_analyzer = {
+        yamlls = {
           enable = true;
-          installCargo = false;
-          installRustc = false;
-          installRustfmt = false;
+
+          settings = {
+            redhat.telemetry.enabled = false;
+
+            validate = true;
+            format.enable = true;
+            schemaStore.enable = true;
+          };
         };
       };
 
