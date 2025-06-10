@@ -51,6 +51,7 @@
 
       keymaps = {
         "<leader>fg" = "live_grep";
+        "<leader>d" = "diagnostics";
         "<C-p>" = "git_files";
       };
     };
@@ -92,6 +93,7 @@
       };
     };
 
+    plugins.gitsigns.enable = true;
     plugins.crates.enable = true;
     plugins.treesitter = {
       enable = true;
@@ -131,6 +133,12 @@
           installCargo = false;
           installRustc = false;
           installRustfmt = false;
+
+          settings.check = {
+            command = "clippy";
+            features = "all";
+            workspace = true;
+          };
         };
 
         nil_ls = {
