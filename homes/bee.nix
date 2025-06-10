@@ -19,7 +19,11 @@
   };
 
   # Enable `git-annex assistant` on startup and append it the i3status config
-  home.packages = [pkgs.git-annex];
+  home.packages = [
+    pkgs.git-annex
+    pkgs.pv
+    (pkgs.proxmark3.override {withBlueshark = true;})
+  ];
   xsession.windowManager.i3.config.startup = [
     {
       command = "git annex assistant --autostart --notify-start --notify-finish";
