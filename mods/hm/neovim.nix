@@ -134,10 +134,13 @@
           installRustc = false;
           installRustfmt = false;
 
-          settings.check = {
-            command = "clippy";
-            features = "all";
-            workspace = true;
+          settings = {
+            cargo.features = "all";
+
+            check = {
+              command = "clippy";
+              workspace = true;
+            };
           };
         };
 
