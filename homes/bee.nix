@@ -1,4 +1,5 @@
 {
+  config,
   self,
   pkgs,
   ...
@@ -22,6 +23,8 @@
   home.packages = [
     pkgs.pv
     pkgs.git-annex
+
+    (config.lib.nixGL.wrap pkgs.musescore)
     (pkgs.proxmark3.override {withBlueshark = true;})
   ];
   xsession.windowManager.i3.config.startup = [
