@@ -125,7 +125,7 @@ in {
           '';
           extraConfig = ''
             strip_workspace_numbers yes
-            height 24
+            height 32
           '';
 
           colors = {
