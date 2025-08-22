@@ -106,6 +106,8 @@
         json
         yaml
         toml
+        html
+        css
       ];
 
       settings = {
@@ -130,6 +132,7 @@
         rust_analyzer = {
           enable = true;
 
+          package = null;
           installCargo = false;
           installRustc = false;
           installRustfmt = false;
@@ -140,6 +143,16 @@
             check = {
               command = "clippy";
               workspace = true;
+            };
+
+            assist = {
+              emitMustUse = true;
+              preferSelf = true;
+            };
+
+            diagnostics = {
+              experimental.enable = true;
+              styleLints.enable = true;
             };
           };
         };
