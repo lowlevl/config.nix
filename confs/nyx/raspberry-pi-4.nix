@@ -23,8 +23,6 @@
   # `initrd` networking modules
   boot.initrd.availableKernelModules = ["smsc95xx" "usbnet"];
 
-  environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
-
   # - Bootloader configuration
   boot.loader = {
     generic-extlinux-compatible.enable = false;
@@ -33,4 +31,6 @@
       configurationLimit = 3;
     };
   };
+
+  environment.systemPackages = with pkgs; [libraspberrypi raspberrypi-eeprom];
 }
