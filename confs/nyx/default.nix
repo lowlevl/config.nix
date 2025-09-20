@@ -24,6 +24,7 @@ in {
     ./caddy.nix
     ./xandikos.nix
     ./git-annex.nix
+    ./factorio.nix
   ];
 
   # - Nix configuration

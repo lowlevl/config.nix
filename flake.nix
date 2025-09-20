@@ -57,7 +57,7 @@
 
     nixosConfigurations."nyx" = nixpkgs.lib.nixosSystem {
       specialArgs = {
-        inherit (inputs) self nixpkgs sops-nix nixos-hardware;
+        inherit (inputs) self nixpkgs nixpkgs-unstable sops-nix nixos-hardware;
       };
 
       system = "aarch64-linux";
