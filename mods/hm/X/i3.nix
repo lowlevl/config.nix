@@ -137,6 +137,7 @@ in {
       startup = [
         {
           command = "${nitrogen} --restore";
+          always = true;
           notification = false;
         }
       ];
