@@ -15,6 +15,11 @@
 
   xsession.enable = true;
 
+  home.keyboard = {
+    layout = "us,fr";
+    options = ["grp:win_space_toggle" "compose:rctrl"];
+  };
+
   services = {
     caffeine.enable = true;
     blueman-applet.enable = true;
