@@ -42,5 +42,11 @@
     enable = true;
 
     lfs.enable = true;
+    extraConfig = {
+      credential.helper = "store";
+
+      tag.sort = "version:refname";
+      versionsort.suffix = "-";
+    };
   };
 }
