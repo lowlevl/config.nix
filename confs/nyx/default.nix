@@ -21,7 +21,7 @@ in {
     decrypt
     git-annex
 
-    ./fail2ban.nix
+    ./security.nix
     ./caddy.nix
     ./xandikos.nix
     ./git-annex.nix
