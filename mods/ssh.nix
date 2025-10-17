@@ -5,7 +5,7 @@
 
     ports = [223];
     openFirewall = true;
-    startWhenNeeded = true;
+    # startWhenNeeded = true; # break fail2ban
 
     settings = {
       PermitRootLogin = "no";
