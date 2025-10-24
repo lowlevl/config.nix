@@ -46,10 +46,7 @@ in {
   };
 
   # - Enable x86_64 emulation
-  boot.binfmt = {
-    emulatedSystems = ["x86_64-linux"];
-    registrations.x86_64-linux.interpreter = lib.getExe pkgs.box64;
-  };
+  boot.binfmt.emulatedSystems = ["x86_64-linux"];
 
   # - Services and miscellaneous configuration
   networking.hostName = "nyx";
