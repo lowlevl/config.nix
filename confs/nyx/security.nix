@@ -1,3 +1,4 @@
+## - `security`: All the security settings for the machine
 {...}: {
   networking.firewall.enable = true;
   networking.nftables.enable = true;

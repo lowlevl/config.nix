@@ -1,4 +1,4 @@
-# - raspberry-pi-4: configuration & tweaks for the hardware
+## - `raspberry-pi-4`: Configurations & tweaks for the hardware
 {
   nixos-hardware,
   pkgs,
