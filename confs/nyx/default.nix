@@ -1,3 +1,4 @@
+## - `default`: The global configuration for the machine
 {
   self,
   nixpkgs,
@@ -21,11 +22,15 @@ in {
     decrypt
     git-annex
 
-    ./security.nix
     ./caddy.nix
+
+    ./art.nix
     ./xandikos.nix
-    ./git-annex.nix
+
     ./factorio.nix
+    ./annexes.nix
+
+    ./security.nix
   ];
 
   # - Nix configuration

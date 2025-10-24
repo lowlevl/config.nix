@@ -1,4 +1,4 @@
-## - `git-annex`: Distributed file synchronization system
+## - `annexes`: File synchronization system
 {config, ...}: {
   services.git-annex = {
     enable = true;
