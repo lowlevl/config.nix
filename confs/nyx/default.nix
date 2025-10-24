@@ -27,7 +27,7 @@ in {
     ./art.nix
     ./xandikos.nix
 
-    ./factorio.nix
+    # ./factorio.nix
     ./annexes.nix
 
     ./security.nix
